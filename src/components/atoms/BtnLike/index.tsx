@@ -1,3 +1,4 @@
+'use client'
 import { Heart } from "phosphor-react";
 import { useEffect, useState } from "react";
 import localForage from "localforage";
@@ -44,7 +45,7 @@ export const BtnLike = ({
   
 
   return (
-    <button onClick={handleClick} className={`p-2 ${active? 'grayscale-0' : 'grayscale'} ${className}`}>
+    <button onClick={handleClick} className={`p-2 hover:scale-110 transition-all ${active? 'grayscale-0' : 'grayscale'} ${className}`}>
       <Heart size={25} color="#ef4444" weight="fill" className='' />
     </button>
   )
