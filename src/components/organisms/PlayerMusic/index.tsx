@@ -3,10 +3,12 @@ import Image from 'next/image'
 import { shallow } from 'zustand/shallow'
 import { usePlayerStore } from '@/store/playerStore'
 import { useEffect, useRef, useState } from "react"
-import { MusicBars, BtnLike } from '@/components/atoms'
+import { MusicIndicator } from '@/components/atoms'
+
 
 export const PlayerMusic = () => {
   const inputRef = useRef<HTMLAudioElement>(null)
+  const [active, setActive] = useState(false) 
   const [active, setActive] = useState(false) 
 
   const {track} = usePlayerStore((state) => ({
@@ -20,7 +22,13 @@ export const PlayerMusic = () => {
       inputRef.current.volume = 0.3
     }
     
+    
     inputRef?.current?.play()
+
+    if(!inputRef.current?.paused){  
+      setActive(!inputRef.current?.paused)
+    }
+
 
     if(!inputRef.current?.paused){  
       setActive(!inputRef.current?.paused)
@@ -42,7 +50,6 @@ export const PlayerMusic = () => {
   const handlePlay = () =>  {
     setActive(true)
   }
-  
 
   return (
     <div className='flex w-full z-[9999] max-w-screen-2xl mx-auto'>
@@ -63,6 +70,12 @@ export const PlayerMusic = () => {
           <audio ref={inputRef} onEnded={handleEnd} onPause={handlePause} onPlay={handlePlay} controls className='w-full mx-auto relative -bottom-2' src={music} />
           <div className="absolute grid place-items-center right-2.5 bottom-[4px] bg-[#0f0f0f] w-10 h-8 ">
             <MusicBars active={active} /> 
+          </div>
+        </div>
+        <div className="relative pr-2">
+          <audio ref={inputRef} onEnded={handleEnd} onPause={handlePause} onPlay={handlePlay} controls className='w-full mx-auto relative -bottom-2' src={music} />
+          <div className="absolute grid place-items-center right-2.5 bottom-[4px] bg-[#0f0f0f] w-10 h-8 ">
+            <MusicIndicator active={active} /> 
           </div>
         </div>
       </div>

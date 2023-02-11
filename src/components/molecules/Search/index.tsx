@@ -1,13 +1,9 @@
 'use client'
 import { useState } from 'react'
 import { MagnifyingGlass } from "phosphor-react";
-import { usePlayerStore } from '@/store/playerStore'
-import { useRouter } from 'next/navigation'
+import router from 'next/router';
 
 export const Search = () => {
-
-  const router = useRouter()
-
   const [inputValue, setInputValue] = useState('')
 
   const handleChange = (e: any) => {
@@ -16,6 +12,7 @@ export const Search = () => {
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()
+    setInputValue('')
     router.push(`/search?song=${inputValue.toLocaleLowerCase().trim()}`)
     setInputValue('')
   }
