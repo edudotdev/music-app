@@ -10,7 +10,7 @@ export const Nav = () => {
   const sizeIcon: number = 28
  
   return (
-    <div className='flex flex-col gap-10 py-10 bg-neutral-800 bg-opacity-50 min-w-[260px] w-[260px] h-screen sticky top-0 before:block before:absolute before:w-5 before:h-5 before:rounded-full before:left-0 before:-top-10 before:bg-blue-500 before:shadow-before-nav'>
+    <div className='flex flex-col gap-10 py-10 bg-neutral-800 bg-opacity-50 min-w-[260px] w-[260px] h-screen sticky top-0 before:block before:absolute before:w-5 before:h-5 before:rounded-full before:left-0 before:-top-10 before:bg-blue-500 before:shadow-before-nav lg:z-30'>
       <Logo />
       <Search />
       <div className='flex flex-col'>
