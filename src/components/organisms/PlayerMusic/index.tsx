@@ -9,6 +9,7 @@ import { MusicIndicator } from '@/components/atoms'
 export const PlayerMusic = () => {
   const inputRef = useRef<HTMLAudioElement>(null)
   const [active, setActive] = useState(false) 
+  const [active, setActive] = useState(false) 
 
   const {track} = usePlayerStore((state) => ({
     track: state.track
@@ -21,7 +22,13 @@ export const PlayerMusic = () => {
       inputRef.current.volume = 0.3
     }
     
+    
     inputRef?.current?.play()
+
+    if(!inputRef.current?.paused){  
+      setActive(!inputRef.current?.paused)
+    }
+
 
     if(!inputRef.current?.paused){  
       setActive(!inputRef.current?.paused)
@@ -52,10 +59,18 @@ export const PlayerMusic = () => {
           : <MusicNotes size={65} color="#aaa" weight="fill" />
         }
       </div>
-      <div className='w-full flex flex-col justify-between'>
-        <div className='mt-2'>
-          <h2 className='text-neutral-100 text-xl pl-4 font-semibold'>{title}</h2>
-          <h3 className='text-neutral-400 pl-4'>{artist}</h3>
+      <div className='relative w-full flex flex-col justify-between'>
+        <div className="px-4 pt-2 flex justify-between">
+          <div className='flex flex-col gap-1.5'>
+            <h2 className='text-neutral-100 text-xl font-semibold'>{title}</h2>
+            <h3 className='text-neutral-400'>{artist}</h3>
+          </div>
+        </div>
+        <div className="relative pr-2">
+          <audio ref={inputRef} onEnded={handleEnd} onPause={handlePause} onPlay={handlePlay} controls className='w-full mx-auto relative -bottom-2' src={music} />
+          <div className="absolute grid place-items-center right-2.5 bottom-[4px] bg-[#0f0f0f] w-10 h-8 ">
+            <MusicBars active={active} /> 
+          </div>
         </div>
         <div className="relative pr-2">
           <audio ref={inputRef} onEnded={handleEnd} onPause={handlePause} onPlay={handlePlay} controls className='w-full mx-auto relative -bottom-2' src={music} />

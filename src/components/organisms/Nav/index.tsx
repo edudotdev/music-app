@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react'
 import { Logo } from '../../atoms/'
 import { Search, NavLink } from '../../molecules/'

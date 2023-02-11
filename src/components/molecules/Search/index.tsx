@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import { MagnifyingGlass } from "phosphor-react";
 import router from 'next/router';
@@ -13,6 +14,7 @@ export const Search = () => {
     e.preventDefault()
     setInputValue('')
     router.push(`/search?song=${inputValue.toLocaleLowerCase().trim()}`)
+    setInputValue('')
   }
 
   return (

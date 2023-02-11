@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import { Play } from "phosphor-react";
 import { usePlayerStore } from '@/store/playerStore'
