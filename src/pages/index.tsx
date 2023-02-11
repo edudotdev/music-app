@@ -12,13 +12,10 @@ const  Home: NextPage<Props> = (props) => {
   return (
     <Layout title='Home'>
       <h2 className='text-neutral-100 font-bold text-4xl'>Discover Music</h2>
-      <div className='w-full h-96 bg-blue-400 rounded-3xl'>
-
-      </div>
+      <div className='w-full h-96 rounded-3xl bg-gradient-to-r from-blue-800 to-blue-600'></div>
 
       <h2 className='text-neutral-100 font-bold text-4xl flex flex-col gap-3'><span className='text-base text-neutral-400'>Top Global</span> Songs #1-50</h2>
-      
-      
+
       <div className='flex flex-col gap-4'>
         <div className='flex items-center py-4 px-6 justify-between gap-10 text-white font-bold uppercase'>
           <div className='flex gap-8'>
