@@ -9,7 +9,6 @@ import { MusicIndicator } from '@/components/atoms'
 export const PlayerMusic = () => {
   const inputRef = useRef<HTMLAudioElement>(null)
   const [active, setActive] = useState(false) 
-  const [active, setActive] = useState(false) 
 
   const {track} = usePlayerStore((state) => ({
     track: state.track
@@ -64,12 +63,6 @@ export const PlayerMusic = () => {
           <div className='flex flex-col gap-1.5'>
             <h2 className='text-neutral-100 text-xl font-semibold'>{title}</h2>
             <h3 className='text-neutral-400'>{artist}</h3>
-          </div>
-        </div>
-        <div className="relative pr-2">
-          <audio ref={inputRef} onEnded={handleEnd} onPause={handlePause} onPlay={handlePlay} controls className='w-full mx-auto relative -bottom-2' src={music} />
-          <div className="absolute grid place-items-center right-2.5 bottom-[4px] bg-[#0f0f0f] w-10 h-8 ">
-            <MusicBars active={active} /> 
           </div>
         </div>
         <div className="relative pr-2">

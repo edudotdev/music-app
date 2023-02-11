@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './musicbars.module.css'
 
 interface MusicBarsProps {
