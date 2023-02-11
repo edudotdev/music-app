@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import { MagnifyingGlass } from "phosphor-react";
-import { usePlayerStore } from '@/store/playerStore'
 import router from 'next/router';
 
 export const Search = () => {
-
   const [inputValue, setInputValue] = useState('')
-  const {track, setTrack} = usePlayerStore()
 
   const handleChange = (e: any) => {
     setInputValue(e.target.value)
@@ -14,7 +11,7 @@ export const Search = () => {
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()
-    
+    setInputValue('')
     router.push(`/search?song=${inputValue.toLocaleLowerCase().trim()}`)
   }
 
