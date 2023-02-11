@@ -18,13 +18,10 @@ export const BtnLike = ({
   const handleClick = async () => {
     setActive(!active)
 
-    if (await localForage.getItem('likes') === null) {
-      localForage.setItem('likes', []);
-    }
-
     if (!active) {
       localForage.getItem('likes')
         .then((result:any) => {
+          if (result===null) { result = []}
           localForage.setItem('likes', [song, ...result])
         })
     } else {
@@ -36,8 +33,11 @@ export const BtnLike = ({
     }
   }
   useEffect(() => {
+    
+
     localForage.getItem('likes')
       .then((result:any) => {
+        if (result === null) return
         result.find((item:TRACK) => item.id === song.id) && setActive(true)
       })
   }, [song])
