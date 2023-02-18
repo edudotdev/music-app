@@ -5,3 +5,9 @@ export type TRACK = {
   title: string,
   artist: string
 }
+
+export type PLAYLIST = {
+  uuid: string
+  name: string,
+  song: []
+}
