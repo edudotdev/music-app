@@ -1,4 +1,3 @@
-'use client'
 import { Heart } from "phosphor-react";
 import { useEffect, useState } from "react";
 import localForage from "localforage";
@@ -34,18 +33,15 @@ export const BtnLike = ({
     }
   }
   useEffect(() => {
-    
-
     localForage.getItem('likes')
       .then((result:any) => {
         if (result === null) return
         result.find((item:TRACK) => item.id === song.id) && setActive(true)
       })
   }, [song])
-  
 
   return (
-    <button onClick={handleClick} className={`p-2 hover:scale-110 transition-all ${active? 'grayscale-0' : 'grayscale'} ${className}`}>
+    <button onClick={handleClick} className={`p-2 hover:scale-110 transition-all bg-neutral-900/90 rounded-full ${active? 'grayscale-0' : 'grayscale'} ${className}`}>
       <Heart size={25} color="#ef4444" weight="fill" className='' />
     </button>
   )
