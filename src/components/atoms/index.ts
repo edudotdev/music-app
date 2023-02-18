@@ -1,3 +1,6 @@
 export * from './Logo'
 export * from './BtnLike'
 export * from './MusicIndicator'
+export * from './BtnOptionsSong'
+export * from './AddedPlaylistInfo'
+export * from './BtnOptionsPlaylist'
