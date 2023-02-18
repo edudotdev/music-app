@@ -19,7 +19,9 @@ module.exports = {
         'content': 'calc(100vh - 152px)',
       },
       maxWidth: {
-        'player': 'calc(100% - 280px)' }
+        'player': 'calc(100% - 280px)',
+        'action-info': 'calc(100% - 65px)'
+      },
     },
   },
   plugins: [],
