@@ -14,7 +14,6 @@ export const Search = () => {
     e.preventDefault()
     setInputValue('')
     router.push(`/search?song=${inputValue.toLocaleLowerCase().trim()}`)
-    setInputValue('')
   }
 
   return (
