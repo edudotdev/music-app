@@ -1,76 +1,126 @@
-import { MusicNotes } from "phosphor-react"
+import { MusicNotes, SkipBack, SkipForward, Play, Pause, Queue } from "phosphor-react"
 import Image from 'next/image'
 import { shallow } from 'zustand/shallow'
-import { usePlayerStore } from '@/store/playerStore'
+import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { useEffect, useRef, useState } from "react"
-import { MusicIndicator } from '@/components/atoms'
+import { MusicIndicator, BtnQueue } from '@/components/atoms'
 
 
 export const PlayerMusic = () => {
   const inputRef = useRef<HTMLAudioElement>(null)
   const [active, setActive] = useState(false) 
 
-  const {track} = usePlayerStore((state) => ({
-    track: state.track
+  const {tracks} = usePlayerStore((state) => ({
+    tracks: state.tracks
   }), shallow)
 
-  const {music, image, title, artist} = track
+  const {index} = usePlayerIndexStore((state) => ({
+    index: state.index
+  }), shallow)
+  
+  if (inputRef?.current) inputRef.current.volume = 0.3
+
+  const {setIndex} = usePlayerIndexStore()
+  const {music, image, title, artist} = tracks[index]
 
   useEffect(() => {
-    if (inputRef?.current) {
-      inputRef.current.volume = 0.3
+    if (tracks[0].id.length !== 0) {
+      inputRef?.current?.play()
+      setActive(true)
     }
+  }, [index, tracks])
+
+  useEffect(() => {
     
-    
-    inputRef?.current?.play()
-
-    if(!inputRef.current?.paused){  
-      setActive(!inputRef.current?.paused)
+    if (tracks[0].id.length !== 0) {
+      inputRef?.current?.play()
+      setActive(true)
     }
+    // if (inputRef?.current) inputRef.current.currentTime = 0;
+  }, [tracks])
 
-
-    if(!inputRef.current?.paused){  
-      setActive(!inputRef.current?.paused)
-    }
-
-  }, [track])
- 
   const handleEnd = () =>  {
-    if (inputRef?.current) {
-      inputRef.current.currentTime = 0;
+    if (inputRef?.current) setActive(false)
+    nextSong()
+  }
+
+  const handlePlayPause = () =>  {
+    if (tracks[0].music.length === 0) return
+    if (active) {  
       setActive(false)
+      inputRef?.current?.pause()
+    } else {
+      setActive(true) 
+      inputRef?.current?.play()
     }
   }
 
-  const handlePause = () =>  {
-    setActive(false)
+  const nextSong = () =>  {
+    if(index < tracks.length-1) {
+      setIndex(index+1)
+      setActive(true)
+      inputRef?.current?.play()
+      
+      if (inputRef?.current) {
+        inputRef.current.currentTime = 0;
+      }
+    }
   }
 
-  const handlePlay = () =>  {
-    setActive(true)
+  const prevSong = () =>  {
+    if(index !== 0) {
+      setIndex(index-1)
+      setActive(true) 
+      inputRef?.current?.play()
+
+      if (inputRef?.current) inputRef.current.currentTime = 0;
+    }
   }
 
   return (
-    <div className='flex w-full z-[9999] max-w-screen-2xl mx-auto'>
-      <div className='bg-neutral-800 ml-4 rounded-lg w-[150px] min-w-[150px] aspect-square grid place-content-center'>
-        {image.length > 0 
-          ? <Image src={image} width={150} height={150} alt={title} className="rounded-lg aspect-square" />          
-          : <MusicNotes size={65} color="#aaa" weight="fill" />
-        }
-      </div>
-      <div className='relative w-full flex flex-col justify-between'>
-        <div className="px-4 pt-2 flex justify-between">
+    <div className='flex justify-between w-full z-[9999] mx-auto min-h-[85px]'>
+      <div className="flex min-w-[280px]">
+        <div className='bg-neutral-800 rounded-lg w-[85px] min-w-85px] aspect-square grid place-content-center'>
+          {image.length > 0 
+            ? <Image src={image} width={85} height={85} alt={title} className="rounded-lg aspect-square" />          
+            : <MusicNotes size={45} color="#aaa" weight="fill" />
+          }
+        </div>
+        <div className="flex flex-col items-center justify-center pl-4">
           <div className='flex flex-col gap-1.5'>
-            <h2 className='text-neutral-100 text-xl font-semibold'>{title}</h2>
-            <h3 className='text-neutral-400'>{artist}</h3>
+            <h2 className='text-neutral-100 text-sm font-semibold'>{title}</h2>
+            <h3 className='text-neutral-400 text-xs'>{artist}</h3>
           </div>
         </div>
-        <div className="relative pr-2">
-          <audio ref={inputRef} onEnded={handleEnd} onPause={handlePause} onPlay={handlePlay} controls className='w-full mx-auto relative -bottom-2' src={music} />
-          <div className="absolute grid place-items-center right-2.5 bottom-[4px] bg-[#0f0f0f] w-10 h-8 ">
-            <MusicIndicator active={active} /> 
+      </div>
+      <div className='relative w-full grid'>
+        <div className="grid w-full h-full place-items-center">
+          <div className="relative w-full max-w-2xl flex flex-col gap-2 items-center justify-center overflow-hidden">
+            <div className="flex gap-2.5">
+              {Boolean(tracks.length) && 
+                <button onClick={prevSong} className='p-2 opacity-75 hover:opacity-100'>
+                  <SkipBack size={24} color="#fff" weight="fill" />
+                </button>}
+              <button onClick={() => handlePlayPause()} className='p-2.5 rounded-full bg-white'>
+                {active && <Pause size={26} color="#0f0f0f" weight="fill" />}
+                {!active && <Play size={26} color="#0f0f0f" weight="fill" />}
+              </button>
+              {Boolean(tracks.length) && 
+                <button onClick={nextSong} className='p-2 opacity-75 hover:opacity-100'>
+                  <SkipForward size={24} color="#fff" weight="fill" />
+                </button>}
+            </div>
+            <div className="relative overflow-hidden h-7 w-[107%] -translate-x-[3%]">
+              <audio ref={inputRef} onEnded={handleEnd} controls className='w-full -translate-y-[13px]' src={music} />
+            </div>
+            <div className="absolute grid place-items-center right-0 -bottom-1 bg-[#0f0f0f] w-10 h-9">
+              <MusicIndicator active={active} /> 
+            </div>
           </div>
         </div>
+      </div>
+      <div className="grid justify-end min-w-[280px]">
+        <BtnQueue />
       </div>
     </div>
   )
