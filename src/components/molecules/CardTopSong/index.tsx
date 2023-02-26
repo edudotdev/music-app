@@ -18,13 +18,13 @@ export const CardTopSong = ({
   const {setTrack} = usePlayerStore()
 
   const handlePlay = () => {
-    setTrack({
+    setTrack([{
       id,
       music,
       title,
       artist,
       image
-    })
+    }])
   }
   
   return (
