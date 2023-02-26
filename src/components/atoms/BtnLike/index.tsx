@@ -2,7 +2,7 @@ import { Heart } from "phosphor-react";
 import { useEffect, useState } from "react";
 import localForage from "localforage";
 import { TRACK } from '@/types'
-
+import { useActionInfoStore } from '@/store/actionInfoStore'
 
 interface BtnLikeProps {
   className?: string
@@ -14,6 +14,7 @@ export const BtnLike = ({
   song
 }:BtnLikeProps) => {
   const [active, setActive] = useState(false)
+  const { setTextInfo } = useActionInfoStore()
 
   const handleClick = async () => {
     setActive(!active)
@@ -23,12 +24,20 @@ export const BtnLike = ({
         .then((result:any) => {
           if (result===null) { result = []}
           localForage.setItem('likes', [song, ...result])
+          setTextInfo({
+            text:'Added to your liked songs',
+            active: true
+          })
         })
     } else {
       localForage.getItem('likes')
         .then((result:any) => {
           result = result.filter((items: TRACK) => items.id !== song.id)
           localForage.setItem('likes', result)
+          setTextInfo({
+            text:'Removed from your liked songs',
+            active: true
+          })
         })
     }
   }
