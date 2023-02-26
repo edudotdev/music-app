@@ -11,3 +11,8 @@ export type PLAYLIST = {
   name: string,
   song: []
 }
+
+export type TEXTINFO = {
+  text: string,
+  active: boolean
+}
