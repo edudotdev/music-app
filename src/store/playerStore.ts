@@ -2,26 +2,32 @@ import {create} from 'zustand'
 import { TRACK } from '@/types'
 
 interface PlayerState {
-  track: TRACK
-  setTrack: (value: TRACK) => void
+  tracks: TRACK[]
+  setTrack: (value: TRACK[]) => void
+}
+
+interface PlayerIndexState {
+  index: number
+  setIndex: (value: number) => void
 }
 
 export const usePlayerStore = create<PlayerState>((set) => ({
-  track: {
+  tracks: [{
     id: '',
     music: '',
     image: '',
     title: '',
     artist: ''
-  },
-  setTrack: (track:TRACK) => set(() => ({
-    track: {
-      id: track.id,
-      music: track.music,
-      image: track.image,
-      title: track.title,
-      artist: track.artist
-    },
+  }],
+  setTrack: (track:TRACK[]) => set(() => ({
+    tracks: track,
+  }))
+}))
+
+export const usePlayerIndexStore = create<PlayerIndexState>((set) => ({
+  index: 0,
+  setIndex: (index:number) => set(() => ({
+    index: index,
   }))
 }))
 
