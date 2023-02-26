@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import React from 'react'
 import { Nav } from '@/components/organisms'
+import { ActionInfo } from '@/components/atoms'
+import { useActionInfoStore } from '@/store/actionInfoStore'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -19,13 +21,14 @@ export const Layout = ({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <div className="flex">
+    <div className="flex relative">
       <Nav />
-      <div className="max-h-content w-full overflow-y-auto content p-14">
+      <div className="max-h-content w-full overflow-y-auto content p-12">
         <div className='mx-auto w-full max-w-screen-2xl flex flex-col gap-10'>
           {children}
         </div>
       </div>
+      <ActionInfo />
     </div>
   </>
   )
