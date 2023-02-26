@@ -16,7 +16,7 @@ module.exports = {
         'player': '0px 0px 50px 50px rgb(0 0 0 / 25%)',
       },
       maxHeight: {
-        'content': 'calc(100vh - 152px)',
+        'content': 'calc(100vh - 117px)',
       },
       maxWidth: {
         'player': 'calc(100% - 280px)',
