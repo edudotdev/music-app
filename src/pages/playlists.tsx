@@ -6,11 +6,18 @@ import { CardPlaylist } from '@/components/molecules'
 import { PLAYLIST } from '@/types'
 
 export default function Playlists () {
-
   const [playlists, setPlaylists] = useState([])
 
+  const handlePlaylists = async () => {
+    await localForage.getItem('playlists')
+      .then((result:any) => {
+        if (result === null) result = []
+        setPlaylists(result)
+      })
+  }
+
   useEffect(() => {
-    handlePlaylists(setPlaylists)
+    handlePlaylists()
   }, [])
 
   return (
@@ -20,8 +27,8 @@ export default function Playlists () {
         {playlists.map((playlist:PLAYLIST) => (
           <CardPlaylist key={playlist.uuid} playlist={playlist} />
           ))}
-        <button className='relative flex flex-col active:scale-[.99] w-auto  '>
-          <div className='w-[400px] grid place-items-center h-auto max-w-full rounded-xl overflow-hidden aspect-square bg-neutral-800 border-2 border-neutral-700 border-opacity-70'>
+        <button className='relative flex flex-col active:scale-[.99] w-auto'>
+          <div className='w-[400px] grid place-items-center h-auto max-w-full rounded-xl overflow-hidden aspect-square bg-neutral-700/60 border-2 border-neutral-600/70 border-opacity-70'>
             <PlusCircle color='#ccc' size={110} weight="fill" className='opacity-40' />
           </div>
           <h2 className='text-white p-2'>New Playlist</h2>
@@ -29,12 +36,4 @@ export default function Playlists () {
       </div>
     </Layout>
   )
-}
-
-const handlePlaylists = async (setPlaylists: any) => {
-  await localForage.getItem('playlists')
-    .then((result:any) => {
-      if (result === null) result = []
-      setPlaylists(result)
-    })
 }
