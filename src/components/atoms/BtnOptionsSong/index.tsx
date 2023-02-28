@@ -1,5 +1,5 @@
 import { DotsThreeOutline, MusicNotesPlus, PlayCircle } from 'phosphor-react'
-import { ModalNewPlaylist } from '@/components/molecules/'
+import { MenuPlaylist } from '@/components/molecules/'
 import { BtnAddQueue } from '@/components/atoms'
 import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { TRACK } from '@/types'
@@ -36,7 +36,7 @@ export const BtnOptionsSong = ({
         {showMenu && (
           <div className="absolute right-0 bottom-[50px] mt-2 w-36 origin-bottom-right divide-y divide-gray-100 rounded-md bg-neutral-900/95 shadow-lg ring-1 ring-white ring-opacity-5 focus:outline-none">
             <div className="py-2.5">
-              <ModalNewPlaylist song={song} />
+              <MenuPlaylist song={song} />
               <BtnAddQueue song={song} />
               <button onClick={handlePlay} className='text-blue-100 group flex gap-1.5 w-full items-center py-2 px-3 transition-[padding] font-semibold text-sm hover:bg-blue-300/20'>
                 <PlayCircle size={17} color='#dbeafe' weight="fill" />
