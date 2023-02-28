@@ -13,13 +13,20 @@ export default function Playlist ()  {
   const uuid = router.query.id as string
 
   useEffect(() => {
-    handlePlaylist(setPlaylists, uuid)
+    handlePlaylist(uuid)
   }, [uuid])
+
+  const handlePlaylist = async (uuid: string) => {
+    await localForage.getItem('playlists')
+      .then((result:any) => {
+        setPlaylists(result.find((playlist:any) => playlist.uuid === uuid))
+      })
+  }
+  
 
   return (
     <Layout title='uwu'>
       {playlist&& (
-
       <div className='text-white'>
         <h2 className='text-4xl font-bold mb-3'>{playlist.name}</h2>
         {playlist && playlist.song.map((song:TRACK, index:number) => (
@@ -32,11 +39,4 @@ export default function Playlist ()  {
         
     </Layout>
   )
-}
-
-const handlePlaylist = async (setPlaylists:any, uuid: string) => {
-  await localForage.getItem('playlists')
-    .then((result:any) => {
-      setPlaylists(result.find((playlist:any) => playlist.uuid === uuid))
-    })
 }
