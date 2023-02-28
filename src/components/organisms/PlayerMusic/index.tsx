@@ -1,10 +1,9 @@
-import { MusicNotes, SkipBack, SkipForward, Play, Pause, Queue } from "phosphor-react"
+import { MusicNoteSimple, SkipBack, SkipForward, Play, Pause, Queue } from "phosphor-react"
 import Image from 'next/image'
 import { shallow } from 'zustand/shallow'
 import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { useEffect, useRef, useState } from "react"
 import { MusicIndicator, BtnQueue } from '@/components/atoms'
-
 
 export const PlayerMusic = () => {
   const inputRef = useRef<HTMLAudioElement>(null)
@@ -83,7 +82,7 @@ export const PlayerMusic = () => {
         <div className='bg-neutral-800 rounded-lg w-[85px] min-w-85px] aspect-square grid place-content-center'>
           {image.length > 0 
             ? <Image src={image} width={85} height={85} alt={title} className="rounded-lg aspect-square" />          
-            : <MusicNotes size={45} color="#aaa" weight="fill" />
+            : <MusicNoteSimple size={45} color="#aaa" weight="fill" />
           }
         </div>
         <div className="flex flex-col items-center justify-center pl-4">
