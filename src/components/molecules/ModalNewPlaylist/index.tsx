@@ -1,83 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { TRACK, PLAYLIST } from '@/types'
-import localForage from 'localforage'
-import { newPlaylist, addSong } from '@/crud/playlist'
-import { Playlist } from 'phosphor-react';
-import { useActionInfoStore } from '@/store/actionInfoStore'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Input } from '@/components/atoms'
+import { XCircle } from 'phosphor-react'
+import { newPlaylist } from '@/crud/playlist'
 
 interface ModalNewPlaylistProps {
-  song: TRACK
+  setShowModal: (value:boolean) => void
 }
 
 export const ModalNewPlaylist = ({
-  song,
+  setShowModal
 }:ModalNewPlaylistProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [namePlaylist, setNamePlaylist] = useState('')
-  const [playlists, setPlaylists] = useState([])
-  const { setTextInfo } = useActionInfoStore()
+  const escFunction = useCallback((event: any) => {
+    if (event.key === "Escape") {
+      setShowModal(false)
+    }
+  }, []);
 
-  const handleChange = (e: any) => {
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction])
+ 
+  const handleSubmit = (e:any) => {
+    e.preventDefault()
+    newPlaylist(namePlaylist, [])
+    setShowModal(false)
+  }
+
+  const handleChange = (e:any) => {
     setNamePlaylist(e.target.value)
   }
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-
-    if(namePlaylist.trim() === '') return
-
-    newPlaylist(namePlaylist, song)
-    setNamePlaylist('')
-    setIsOpen(false)
-
-    setTextInfo({
-      text:'Added to playlist',
-      active: true
-    })
-  }
-
-  const handleClick = (playlist: PLAYLIST) => {
-    addSong(playlist.uuid, song)
-    setIsOpen(false)
-    setTextInfo({
-      text:'Added to playlist',
-      active: true
-    })
-  }
-
-  useEffect(() => {
-    handlePlaylists(setPlaylists)
-  }, [isOpen])
-
   return (
-    <div className='z-50'>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className='text-blue-100 py-2 px-3 w-full text-start text-sm font-semibold hover:bg-blue-300/20'
-      >Add to Playlist</button>
-      <div className='relative right-full -translate-x-5 -top-[46px]'>
-        {isOpen && (
-          <div className='absolute rounded-md bg-neutral-900/95 shadow-lg w-40 max-h-[210px] overflow-y-auto py-2.5 content'>
-            <form onSubmit={(e) => handleSubmit(e)}>
-              <input type="text" onChange={(e) => handleChange(e)} value={namePlaylist} placeholder='add playlist...' className='w-full text-sm outline-none bg-transparent focus:bg-blue-300/20 border-transparent text-white pl-3 py-2' />
-            </form>
-            {playlists.length > 0 && playlists.map((playlist:PLAYLIST) => (
-              <button key={playlist.uuid} onClick={() => handleClick(playlist)} className='cursor-pointer flex gap-2 w-full text-start hover:bg-blue-300/20 py-2 px-3 text-sm font-semibold text-blue-100' title={playlist.name}>
-                <Playlist size={17} color="#dbeafe" weight="fill" /> <span className='truncate'>{playlist.name}</span>
-              </button>
-            ))}
-          </div>
-        )}
+    <div className='absolute w-full h-full bg-neutral-800 bg-opacity-70'>
+      <div className='relative left-1/2 -translate-x-1/2 top-[80px] bg-neutral-700 w-full max-w-[500px] p-5 grid gap-5 rounded-xl border-2 border-neutral-500 border-opacity-40'>
+        <div className='flex justify-between'>
+          <h2 className='text-neutral-200 text-3xl font-semibold'>New playlist</h2>
+          <button onClick={() => setShowModal(false)} className='opacity-70 hover:opacity-100'>
+            <XCircle size={34} color="#ccc" weight="fill" />
+          </button>
+        </div>
+        <form action="" onSubmit={handleSubmit} className='flex flex-col gap-5'>
+          <Input label='Name playlist' onChange={handleChange} />
+          <button className='bg-blue-500 w-full rounded-md py-4 font-semibold text-white'>
+            Create playlist
+          </button>
+        </form>
       </div>
     </div>
-  );
+  )
 }
-
-const handlePlaylists = async (setPlaylists: any) => {
-  await localForage.getItem('playlists')
-    .then((result:any) => {
-      if (result === null) result = []
-      setPlaylists(result)
-    })
-}
-
