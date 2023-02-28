@@ -24,7 +24,7 @@ export const Layout = ({
     <div className="flex relative">
       <Nav />
       <div className="max-h-content w-full overflow-y-auto content p-12">
-        <div className='mx-auto w-full max-w-screen-2xl flex flex-col gap-10'>
+        <div className='mx-auto w-full max-w-screen-2xl flex flex-col gap-10 relative'>
           {children}
         </div>
       </div>
