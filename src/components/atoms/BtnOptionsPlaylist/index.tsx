@@ -20,13 +20,14 @@ export const BtnOptionsPlaylist = ({
   const {setIndex} = usePlayerIndexStore()
 
   const handlePlay = () => {
+    if(songs.length === 0) return
     setTrack(songs)
     setIndex(0)
   }
 
   const handleShuffle = () => {
-    const shuffleSongs = shuffle(songs)
-    
+    if(songs.length === 0) return
+    const shuffleSongs = shuffle(songs)    
     setTrack(shuffleSongs)
     setIndex(0)
   }
