@@ -3,8 +3,8 @@ import localForage from 'localforage'
 import { TRACK, PLAYLIST } from '@/types'
 
 
-export const newPlaylist = async (name:string, song: any[]) => {
-  await localForage.getItem('playlists')
+export const newPlaylist = (name:string, song: any[]) => {
+  localForage.getItem('playlists')
     .then((result:any) => {
       if(result === null) result = []
       result.unshift(
