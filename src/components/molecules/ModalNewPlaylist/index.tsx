@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Input } from '@/components/atoms'
 import { XCircle } from 'phosphor-react'
 import { newPlaylist } from '@/crud/playlist'
+import { useActionInfoStore } from '@/store/actionInfoStore'
+
 
 interface ModalNewPlaylistProps {
   setShowModal: (value:boolean) => void
@@ -11,10 +13,10 @@ export const ModalNewPlaylist = ({
   setShowModal
 }:ModalNewPlaylistProps) => {
   const [namePlaylist, setNamePlaylist] = useState('')
+  const { setTextInfo } = useActionInfoStore()
+
   const escFunction = useCallback((event: any) => {
-    if (event.key === "Escape") {
-      setShowModal(false)
-    }
+    if (event.keyCode === 27) setShowModal(false)
   }, []);
 
   useEffect(() => {
@@ -25,10 +27,14 @@ export const ModalNewPlaylist = ({
     };
   }, [escFunction])
  
-  const handleSubmit = (e:any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault()
-    newPlaylist(namePlaylist, [])
     setShowModal(false)
+    newPlaylist(namePlaylist, [])
+    setTextInfo({
+      text:'Playlist created',
+      active: true
+    })
   }
 
   const handleChange = (e:any) => {
