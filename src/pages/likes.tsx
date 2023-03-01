@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react'
 import { CardSong } from '@/components/molecules'
 import { TRACK } from '@/types'
 import { Play, ShuffleAngular } from 'phosphor-react'
-import { usePlayerStore } from '@/store/playerStore'
+import { usePlayerStore, usePlayerIndexStore } from '@/store/playerStore'
 
 export default function Likes () {
   const [favorites, setFavorites] = useState<TRACK[]>([])
   const {setTrack} = usePlayerStore()
-
+  const {setIndex} = usePlayerIndexStore()
 
   useEffect(() => {
     handleFavorites()
@@ -17,6 +17,7 @@ export default function Likes () {
 
   const handlePlay = () => {
     setTrack(favorites)
+    setIndex(0)
   }
 
   const handleFavorites = async () => {
