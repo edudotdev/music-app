@@ -20,7 +20,7 @@ export const BtnAddQueue = ({
   const handleAddQueue = () => {
     tracks.push(song)
     setTextInfo({
-      text:'Added to queue',
+      text:`${song.title} added to queue`,
       active: true
     })
   }
