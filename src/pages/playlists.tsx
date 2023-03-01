@@ -1,5 +1,4 @@
 import { Layout } from '@/components/Layout'
-import { PlusCircle } from 'phosphor-react'
 import localForage from 'localforage'
 import { useEffect, useState } from 'react'
 import { CardPlaylist, ModalNewPlaylist } from '@/components/molecules'
@@ -9,8 +8,8 @@ export default function Playlists () {
   const [playlists, setPlaylists] = useState([])
   const [showModal, setShowModal] = useState(false)
 
-  const handlePlaylists = async () => {
-    await localForage.getItem('playlists')
+  const handlePlaylists = () => {
+    localForage.getItem('playlists')
       .then((result:any) => {
         if (result === null) result = []
         setPlaylists(result)
@@ -19,7 +18,6 @@ export default function Playlists () {
 
   useEffect(() => {
     handlePlaylists()
-    console.log('refresh')
   }, [showModal])
 
   return (
