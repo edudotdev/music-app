@@ -1,10 +1,10 @@
 import { Layout } from '@/components/Layout'
-import localForage from 'localforage'
 import { useEffect, useState } from 'react'
 import { CardSong } from '@/components/molecules'
 import { TRACK } from '@/types'
 import { Play, ShuffleAngular } from 'phosphor-react'
 import { usePlayerStore, usePlayerIndexStore } from '@/store/playerStore'
+import { getFavorites } from '@/services/likes'
 
 export default function Likes () {
   const [favorites, setFavorites] = useState<TRACK[]>([])
@@ -20,11 +20,20 @@ export default function Likes () {
     setIndex(0)
   }
 
+  const handleShuffle = async () => {
+    if(favorites.length === 0) return
+    const songs: any = await getFavorites()
+    setTrack(shuffle(songs))
+    setIndex(0)
+  }
+
   const handleFavorites = async () => {
-    await localForage.getItem('likes').then((result:any) => {
-      if (result === null) result = []
-      setFavorites(result)
-    })
+    const data = await getFavorites()
+    setFavorites(data)
+  }
+
+  const shuffle = (array: TRACK[]) => {
+    return array.sort(() => Math.random() - 0.5);
   }
   
   return (
@@ -39,7 +48,7 @@ export default function Likes () {
             <Play size={16} color="#fff" weight="fill" />
             play
           </button>
-          <button className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md'>
+          <button onClick={handleShuffle} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md'>
             <ShuffleAngular size={20} color="#fff" weight="fill" />
             shuffle
           </button>
