@@ -3,11 +3,11 @@ import Image from 'next/image'
 import { shallow } from 'zustand/shallow'
 import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { useEffect, useRef, useState } from "react"
-import { MusicIndicator, BtnQueue } from '@/components/atoms'
+import { MusicIndicator, BtnQueue, ControlVolume, ControlTime } from '@/components/atoms'
 
 export const PlayerMusic = () => {
   const inputRef = useRef<HTMLAudioElement>(null)
-  const [active, setActive] = useState(false) 
+  const [active, setActive] = useState(false)
 
   const {tracks} = usePlayerStore((state) => ({
     tracks: state.tracks
@@ -17,7 +17,7 @@ export const PlayerMusic = () => {
     index: state.index
   }), shallow)
   
-  if (inputRef?.current) inputRef.current.volume = 0.3
+  // if (inputRef?.current) inputRef.current.volume = 0.3
 
   const {setIndex} = usePlayerIndexStore()
   const {music, image, title, artist} = tracks[index]
@@ -30,13 +30,13 @@ export const PlayerMusic = () => {
   }, [index, tracks])
 
   useEffect(() => {
-    
     if (tracks[0].id.length !== 0) {
       inputRef?.current?.play()
       setActive(true)
     }
-    // if (inputRef?.current) inputRef.current.currentTime = 0;
+    if (inputRef?.current) inputRef.current.currentTime = 0;
   }, [tracks])
+
 
   const handleEnd = () =>  {
     if (inputRef?.current) setActive(false)
@@ -75,6 +75,24 @@ export const PlayerMusic = () => {
       if (inputRef?.current) inputRef.current.currentTime = 0;
     }
   }
+  const [currentTime, setCurrentTime] = useState(0);
+
+
+  const handleTimeUpdate = (event: React.SyntheticEvent<HTMLAudioElement>) => {
+    const target = event.target as HTMLAudioElement;
+    const newCurrentTime = target.currentTime;
+    setCurrentTime(newCurrentTime);
+  };
+
+  const [duration, setDuration] = useState(0)
+
+
+  const handleDuration = (event: React.SyntheticEvent<HTMLAudioElement>) => {
+    const target = event.target as HTMLAudioElement;
+    const newDuration = target.duration;
+    setDuration(newDuration);
+  };
+
 
   return (
     <div className='flex justify-between w-full z-[9999] mx-auto min-h-[85px]'>
@@ -109,16 +127,20 @@ export const PlayerMusic = () => {
                   <SkipForward size={24} color="#fff" weight="fill" />
                 </button>}
             </div>
-            <div className="relative overflow-hidden h-7 w-[107%] -translate-x-[3%]">
-              <audio ref={inputRef} onEnded={handleEnd} controls className='w-full -translate-y-[13px]' src={music} />
-            </div>
-            <div className="absolute grid place-items-center right-0 -bottom-1 bg-[#0f0f0f] w-10 h-9">
-              <MusicIndicator active={active} /> 
+            <div className="flex w-full items-center">
+              <div className="relative w-full">
+                <audio ref={inputRef} onEnded={handleEnd} onLoadedMetadata={handleDuration} onTimeUpdate={handleTimeUpdate} className='w-full -translate-y-[13px]' src={music} />
+                <ControlTime duration={duration} audioRef={inputRef} active={active} currentTime={currentTime} setCurrentTime={setCurrentTime} />
+              </div>
+              <div className="grid place-items-center right-0 -bottom-1 bg-[#0f0f0f] w-10 h-9">
+                <MusicIndicator active={active} /> 
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="grid justify-end min-w-[280px]">
+      <div className="flex justify-end min-w-[280px]">
+        <ControlVolume audioRef={inputRef} />
         <BtnQueue />
       </div>
     </div>
