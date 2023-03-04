@@ -1,34 +1,43 @@
-import { TRACK } from '@/types'
+import { PLAYLIST, TRACK } from '@/types'
 import { DotsThreeOutline, PlayCircle, ShuffleAngular } from 'phosphor-react'
 import React, { useEffect, useState } from 'react'
 import { usePlayerIndexStore, usePlayerStore, } from '@/store/playerStore'
+import localForage from 'localforage'
 
 interface BtnOptionsPlaylistProps {
   className?: string
   showMenu: boolean
   setShowMenu: (value: boolean) => void
-  songs: TRACK[]
+  playlist: PLAYLIST
 }
 
 export const BtnOptionsPlaylist = ({
   className = '',
   showMenu,
   setShowMenu,
-  songs
+  playlist
 }:BtnOptionsPlaylistProps) => {
   const {setTrack, tracks} = usePlayerStore()
   const {setIndex} = usePlayerIndexStore()
 
+  const {song, name} = playlist
+
   const handlePlay = () => {
-    if(songs.length === 0) return
-    setTrack(songs)
+    if(song.length === 0) return
+    setTrack(song)
     setIndex(0)
   }
 
-  const handleShuffle = () => {
-    if(songs.length === 0) return
-    const shuffleSongs = shuffle(songs)    
-    setTrack(shuffleSongs)
+  const handleShuffle = async () => {
+
+    const uwu = await localForage.getItem('playlists')
+    .then((result:any) => {
+      if (result === null) result = []
+      return result.find((playlist: any) => playlist.name === name)
+    })
+
+    if(uwu.song.length === 0) return
+    setTrack(shuffle(uwu.song))
     setIndex(0)
   }
 
@@ -59,7 +68,6 @@ export const BtnOptionsPlaylist = ({
   )
 }
 
-
-const shuffle = (array: TRACK[]) => {
-  return array.sort(() => Math.random() - 0.5);
-}
+  const shuffle = (array: TRACK[]) => {
+    return array.sort(() => Math.random() - 0.5);
+  }
