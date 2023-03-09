@@ -17,13 +17,11 @@ export const ControlVolume = ({
       const volume = parseFloat(savedVolume);
       audioRef.current!.volume = volume
       setVolume(volume)
-      console.log(volume)
     }
   }, [audioRef]);
 
   useEffect(() => {
-    if (audioRef?.current) audioRef.current.volume = volume;
-    console.log(volume)
+    if (audioRef?.current) audioRef.current.volume = volume
   }, [volume])
   
   const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +30,13 @@ export const ControlVolume = ({
     setVolume(newVolume)
   }
 
+  const handleMute = () => {
+    {volume === 0? setVolume(.50) :setVolume(0) }
+  }
+
   return (
     <div className='flex gap-2 items-center'>
-      <button onClick={() => setVolume(0)}>
+      <button onClick={handleMute}>
         {volume === 0 && <SpeakerX size={20} color="#fff" weight="fill" />}
         {(volume > 0 && volume <= 0.5) && <SpeakerLow size={20} color="#fff" weight="fill" />}
         {(volume > 0.5 && volume <= 1) && <SpeakerHigh size={20} color="#fff" weight="fill" />}
