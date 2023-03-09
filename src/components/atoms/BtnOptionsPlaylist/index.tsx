@@ -1,7 +1,8 @@
 import { PLAYLIST, TRACK } from '@/types'
-import { DotsThreeOutline, PlayCircle, ShuffleAngular } from 'phosphor-react'
+import { DotsThreeOutline, PlayCircle, ShuffleAngular, Trash } from 'phosphor-react'
 import React, { useEffect, useState } from 'react'
 import { usePlayerIndexStore, usePlayerStore, } from '@/store/playerStore'
+import { deletePlaylist } from '@/crud/playlist'
 import localForage from 'localforage'
 
 interface BtnOptionsPlaylistProps {
@@ -20,7 +21,7 @@ export const BtnOptionsPlaylist = ({
   const {setTrack, tracks} = usePlayerStore()
   const {setIndex} = usePlayerIndexStore()
 
-  const {song, name} = playlist
+  const {song, name, uuid} = playlist
 
   const handlePlay = () => {
     if(song.length === 0) return
@@ -52,6 +53,10 @@ export const BtnOptionsPlaylist = ({
         {showMenu && (
           <div className="absolute right-0 bottom-[50px] mt-2 w-36 origin-bottom-right rounded-md bg-neutral-900/95 shadow-lg ring-opacity-5 focus:outline-none">
             <div className="py-2.5">
+              <button onClick={() => deletePlaylist(uuid)} className='text-blue-100 group flex gap-1.5 w-full items-center py-2 px-3 font-semibold text-sm hover:bg-blue-300/20'>
+                <Trash size={17} color='#dbeafe' weight="fill" />
+                Delete
+              </button>
               <button onClick={handlePlay} className='text-blue-100 group flex gap-1.5 w-full items-center py-2 px-3 font-semibold text-sm hover:bg-blue-300/20'>
                 <PlayCircle size={17} color='#dbeafe' weight="fill" />
                 <span>Play</span>
