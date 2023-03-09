@@ -11,7 +11,6 @@ interface CardSongProps {
 export const CardSong = ({
   song: {id, music, title, artist, image}
 }:CardSongProps) => {
-  const [text, setText] = useState('')
   const {setTrack} = usePlayerStore()
   const {setIndex} = usePlayerIndexStore()
 

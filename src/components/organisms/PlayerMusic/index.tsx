@@ -16,8 +16,6 @@ export const PlayerMusic = () => {
   const {index} = usePlayerIndexStore((state) => ({
     index: state.index
   }), shallow)
-  
-  // if (inputRef?.current) inputRef.current.volume = 0.3
 
   const {setIndex} = usePlayerIndexStore()
   const {music, image, title, artist} = tracks[index]
@@ -138,7 +136,7 @@ export const PlayerMusic = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
       <div className="flex justify-end min-w-[280px]">
         <ControlVolume audioRef={inputRef} />
         <BtnQueue />

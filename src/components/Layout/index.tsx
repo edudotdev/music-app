@@ -13,6 +13,7 @@ export const Layout = ({
   children,
   title
 }:LayoutProps) => {
+
   return (
     <>
     <Head>

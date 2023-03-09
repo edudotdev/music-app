@@ -2,7 +2,6 @@ import { v4 as uuidv4 } from 'uuid'
 import localForage from 'localforage'
 import { TRACK, PLAYLIST } from '@/types'
 
-
 export const newPlaylist = (name:string, song: any[]) => {
   localForage.getItem('playlists')
     .then((result:any) => {
@@ -34,7 +33,7 @@ export const addSong = async (uuid: string, song: TRACK) => {
   
 
 
-export const remove = async (uuid: string) => {
+export const deletePlaylist = async (uuid: string) => {
   await localForage.getItem('playlists').then((result:any) => {
     if (result === null) result = []
     result = result.filter((playlist: PLAYLIST) => playlist.uuid !== uuid)
