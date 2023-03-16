@@ -13,7 +13,7 @@ export const ThumbnailPlaylist = ({
   return (
     <>
       {songs.length === 0 && 
-        <div className='relative grid place-content-center h-full'>
+        <div className='relative grid place-content-center h-full rounded-xl bg-neutral-900/30 border-2 border-neutral-700 border-opacity-70'>
           <MusicNotesSimple size={70} color="#ccc" weight="fill" />
         </div>
       }
