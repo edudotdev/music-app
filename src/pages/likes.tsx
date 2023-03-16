@@ -2,38 +2,26 @@ import { Layout } from '@/components/Layout'
 import { useEffect, useState } from 'react'
 import { CardSong } from '@/components/molecules'
 import { TRACK } from '@/types'
-import { Play, ShuffleAngular } from 'phosphor-react'
-import { usePlayerStore, usePlayerIndexStore } from '@/store/playerStore'
 import { getFavorites } from '@/services/likes'
+import { BtnPlay, BtnShuffle } from '@/components/atoms'
 
 export default function Likes () {
   const [favorites, setFavorites] = useState<TRACK[]>([])
-  const {setTrack} = usePlayerStore()
-  const {setIndex} = usePlayerIndexStore()
+  const [favoritesToShuffle, setFavoritesToShuffle] = useState<TRACK[]>([])
 
   useEffect(() => {
     handleFavorites()
+    handleFavoritesToShuffle()
   }, [])
-
-  const handlePlay = () => {
-    setTrack(favorites)
-    setIndex(0)
-  }
-
-  const handleShuffle = async () => {
-    if(favorites.length === 0) return
-    const songs: any = await getFavorites()
-    setTrack(shuffle(songs))
-    setIndex(0)
-  }
 
   const handleFavorites = async () => {
     const data = await getFavorites()
     setFavorites(data)
   }
 
-  const shuffle = (array: TRACK[]) => {
-    return array.sort(() => Math.random() - 0.5);
+  const handleFavoritesToShuffle = async () => {
+    const data = await getFavorites()
+    setFavoritesToShuffle(data)
   }
   
   return (
@@ -44,14 +32,8 @@ export default function Likes () {
           <span className='text-blue-300'>{Boolean(favorites)? favorites.length : 0}</span>
         </h2>
         <div className='flex items-center gap-3'>
-          <button onClick={handlePlay} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md'>
-            <Play size={16} color="#fff" weight="fill" />
-            play
-          </button>
-          <button onClick={handleShuffle} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md'>
-            <ShuffleAngular size={20} color="#fff" weight="fill" />
-            shuffle
-          </button>
+          <BtnPlay songs={favorites} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md' />
+          <BtnShuffle songs={favoritesToShuffle} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md' />
         </div>
       </div>
       <div className='grid gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
