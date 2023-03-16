@@ -30,8 +30,6 @@ export const addSong = async (uuid: string, song: TRACK) => {
     })
   
 }
-  
-
 
 export const deletePlaylist = async (uuid: string) => {
   await localForage.getItem('playlists').then((result:any) => {
@@ -41,17 +39,6 @@ export const deletePlaylist = async (uuid: string) => {
   })
 }
 
-export const edit = () => {
+export const editNamePlaylist= (uuid: string, name: string) => {
   
-}
-
-
-const obj = {
-  playlist: [
-    {
-      uuid: {
-          
-      }
-    }
-  ]
 }
