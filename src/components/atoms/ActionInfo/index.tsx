@@ -24,7 +24,7 @@ export const ActionInfo = ({
       text: textInfo.text,
         active: false
       })
-    }, 2500)
+    }, 3000)
     setTimer(newTimer)
   }
   }, [textInfo])
