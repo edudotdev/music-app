@@ -65,12 +65,12 @@ export const PlayerMusic = () => {
   }
 
   const prevSong = () =>  {
-    if(index !== 0) {
-      setIndex(index-1)
-      setActive(true) 
-      inputRef?.current?.play()
-
-      if (inputRef?.current) inputRef.current.currentTime = 0;
+    if (inputRef?.current) {
+      if(inputRef.current.currentTime < 3 && index !== 0) {
+        setIndex(index-1)
+        setActive(true) 
+        inputRef.current.play()
+      } else (inputRef.current.currentTime = 0)
     }
   }
   const [currentTime, setCurrentTime] = useState(0);
