@@ -1,7 +1,6 @@
-import { DotsThreeOutline, MusicNotesPlus, PlayCircle } from 'phosphor-react'
+import { DotsThreeOutline } from 'phosphor-react'
 import { MenuPlaylist } from '@/components/molecules/'
-import { BtnAddQueue, BtnPlayNext } from '@/components/atoms'
-import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
+import { BtnAddQueue, BtnPlay, BtnPlayNext } from '@/components/atoms'
 import { TRACK } from '@/types'
 
 interface BtnOptionsSongProps {
@@ -16,15 +15,7 @@ export const BtnOptionsSong = ({
   song,
   setShowMenu,
   showMenu
-}:BtnOptionsSongProps) => {
-  const {setTrack} = usePlayerStore()
-  const {setIndex} = usePlayerIndexStore()
-
-  const handlePlay = () => {
-    setIndex(0)
-    setTrack([song])
-    setShowMenu(false)
-  }
+}:BtnOptionsSongProps) => {  
 
   return (
     <div className={`absolute group-hover:z-10 bottom-[88px] right-2 w-48 text-right ${className}`}>
@@ -37,10 +28,7 @@ export const BtnOptionsSong = ({
             <MenuPlaylist song={song} />
             <hr className='opacity-25' />
             <BtnAddQueue song={song} />
-            <button onClick={handlePlay} className='text-blue-100 group flex gap-1.5 w-full items-center py-2 px-3 font-semibold text-sm hover:bg-blue-300/20'>
-              <PlayCircle size={20} color='#dbeafe' weight="fill" />
-              <span>Play</span>
-            </button>
+            <BtnPlay songs={[song]} className='text-blue-100 group flex gap-1.5 w-full items-center py-2 px-3 font-semibold text-sm hover:bg-blue-300/20' />
             <BtnPlayNext song={song} />
           </div>
         )}
