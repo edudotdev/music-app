@@ -1,4 +1,5 @@
 import { usePlayerStore, usePlayerIndexStore } from '@/store/playerStore'
+import { useActionInfoStore } from '@/store/actionInfoStore'
 import { TRACK } from '@/types'
 import { SkipForwardCircle } from 'phosphor-react'
 import React from 'react'
@@ -19,8 +20,15 @@ export const BtnPlayNext = ({
     index: state.index
   }), shallow)
 
+  const { setTextInfo } = useActionInfoStore()
+
   const handlePlayNext = () => {
     tracks.splice((index + 1), 0, song)
+
+    setTextInfo({
+      text: `Added ${song.title} to next in queue`,
+      active: true
+    })
   }
 
   return (
