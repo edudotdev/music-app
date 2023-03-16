@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { TRACK, PLAYLIST } from '@/types'
+import { PLAYLIST } from '@/types'
 import { BtnOptionsPlaylist } from '@/components/atoms'
 import { ThumbnailPlaylist } from '@/components/molecules'
 
@@ -12,11 +12,6 @@ export const CardPlaylist = ({
   playlist
 }:CardPlaylistProps) => {
   const [showMenu, setShowMenu] = useState(false)
-  const [songs, setSongs] = useState([])
-
-  useEffect(() => {
-    setSongs(playlist.song)
-  }, [playlist])
 
   return (
     <div key={playlist.uuid} className='relative flex flex-col w-auto aspect-square group' onMouseLeave={() => setShowMenu(false)}>
