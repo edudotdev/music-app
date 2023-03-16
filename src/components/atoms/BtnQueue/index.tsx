@@ -1,9 +1,17 @@
 import { Queue } from 'phosphor-react'
 import { CardQueue } from '@/components/molecules'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import useExternalClick from '@/hooks/useExternalClick'
 
 export const BtnQueue = () => {
   const [showMenu, setShowMenu] = useState(false)
+  const cardQueue = useRef(null);
+
+  const handleClickOutside = () => {
+    setShowMenu(false)
+  };
+
+  useExternalClick(cardQueue, handleClickOutside)
 
   return (
     <div className='relative self-center'>
@@ -11,7 +19,7 @@ export const BtnQueue = () => {
         <Queue size={28} color="#fff" weight="fill" />
       </button>
       {showMenu && (
-        <div onMouseLeave={() => setShowMenu(false)} className='absolute flex flex-col text-white bottom-16 right-0'>
+        <div ref={cardQueue} className='absolute flex flex-col text-white bottom-16 right-0'>
           <CardQueue />
         </div>
       )}
