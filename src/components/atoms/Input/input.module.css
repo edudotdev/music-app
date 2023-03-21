@@ -13,7 +13,7 @@
 }
 
 .input:focus {
-  border: 2px solid #3b82f6;
+  border: 2px solid #fff;
 }
 
 .label {
@@ -34,6 +34,6 @@
 .input:focus + .label{ 
   transform: translateY(-23px);
   transform-origin: left;
-  color: #3b82f6;
+  color: #22c55e;
   font-size: 12px;
 }
