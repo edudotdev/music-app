@@ -5,13 +5,13 @@ import React, { useState } from 'react'
 import { shallow } from 'zustand/shallow'
 import { useActionInfoStore } from '@/store/actionInfoStore'
 
-interface BtnAddQueueProps {
+interface BtnPlayLastProps {
   song: TRACK
 }
 
-export const BtnAddQueue = ({
+export const BtnPlayLast = ({
   song,
-}:BtnAddQueueProps) => {
+}:BtnPlayLastProps) => {
   const { setTextInfo } = useActionInfoStore()
   const {tracks} = usePlayerStore((state) => ({
     tracks: state.tracks
@@ -20,15 +20,15 @@ export const BtnAddQueue = ({
   const handleAddQueue = () => {
     tracks.push(song)
     setTextInfo({
-      text:`${song.title} added to queue`,
+      text:`Added to last in queue`,
       active: true
     })
   }
   
   return (
-    <button onClick={handleAddQueue} className='text-blue-100 group flex gap-1.5 w-full items-center py-2 px-3 transition-[padding] font-semibold text-sm hover:bg-blue-300/20'>
-      <MusicNotesPlus size={17} color='#dbeafe' weight="fill" />
-      <span>Add queue</span>
+    <button onClick={handleAddQueue} className='text-white group flex gap-1.5 w-full items-center py-1.5 px-2 text-xs transition-[padding] font-semibold hover:bg-neutral-400/10'>
+      {/* <MusicNotesPlus size={17} color='#dbeafe' weight="fill" /> */}
+      <span>Play last </span>
     </button>
   )
 }
