@@ -1,4 +1,5 @@
-import { RefObject, useEffect, useState } from 'react'
+import { RefObject, useState } from 'react'
+import * as Slider from '@radix-ui/react-slider'
 
 interface ControlTimeProps {
   active: boolean
@@ -15,42 +16,28 @@ export const ControlTime = ({
   currentTime,
   setCurrentTime
 }:ControlTimeProps) => { 
-
-  const handleSeek = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const target = event.target as HTMLInputElement;
-    const newCurrentTime = parseFloat(target.value);
+  const handleSeek = (value: number[]) => {
+    const newCurrentTime = value[0]
     setCurrentTime(newCurrentTime);
-
     if(audioRef.current) audioRef.current.currentTime = newCurrentTime
   }
-
-  const MS = {
-    SECOND: 1000,
-    MINUTE: 1000 * 60,
-    HOUR: 1000 * 60 * 60,
-    DAY: 1000 * 60 * 60 * 24,
-  } as const
 
   const secondsToMinutes = (time: number) => {
     let minutes = Math.floor(time / 60);
     let seconds = time % 60; 
-
-  
     return `${minutes}:${seconds < 10? (`0${Math.floor(seconds)}`) : Math.floor(seconds)}`
   }
 
   return (
-    <div className='flex gap-3'>
-      <p className='text-white'>{secondsToMinutes(currentTime)}</p>
-      <input
-        type="range"
-        value={currentTime}
-        max={duration}
-        onChange={handleSeek}
-        className='w-full'
-        disabled={Boolean(!active)}
-      />
-      <p className='text-white'>{secondsToMinutes(duration)}</p>
+    <div className='flex items-center'>
+      <p className='text-neutral-200 text-xs w-[45px]'>{secondsToMinutes(currentTime)}</p>
+      <Slider.Root className="SliderRoot w-full" value={[currentTime]} defaultValue={[currentTime]} min={0} max={duration} onValueChange={handleSeek} >
+        <Slider.Track className="SliderTrack">
+          <Slider.Range className="SliderRange" />
+        </Slider.Track>
+        <Slider.Thumb className="SliderThumb" />
+      </Slider.Root>
+      <p className='text-neutral-200 text-xs ml-3'>{secondsToMinutes(duration)}</p>
     </div>
   )
 }
