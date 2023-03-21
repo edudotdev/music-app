@@ -12,11 +12,11 @@ module.exports = {
     extend: {
       boxShadow: {
         'before-link': '100px 0px 50px 100px rgb(58 130 246 / 25%)',
-        'before-nav': '-10px 120px 200px 200px rgb(58 130 246 / 25%)',
+        'before-nav': '-10px 120px 200px 200px rgb(34 197 94 / 15%)',
         'player': '0px 0px 50px 50px rgb(0 0 0 / 25%)',
       },
       maxHeight: {
-        'content': 'calc(100vh - 117px)',
+        'content': 'calc(100vh - 102px)',
       },
       maxWidth: {
         'player': 'calc(100% - 280px)',
