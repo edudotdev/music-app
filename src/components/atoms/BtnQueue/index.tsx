@@ -16,7 +16,7 @@ export const BtnQueue = () => {
   return (
     <div className='relative self-center'>
       <button onClick={() => setShowMenu(!showMenu)} className="relative p-2 opacity-75 hover:opacity-100">
-        <Queue size={28} color="#fff" weight="fill" />
+        <Queue size={23} color="#fff" weight="fill" />
       </button>
       {showMenu && (
         <div ref={cardQueue} className='absolute flex flex-col text-white bottom-16 right-0'>
