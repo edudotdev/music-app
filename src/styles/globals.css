@@ -25,3 +25,45 @@ audio {
     box-shadow: 100px 0px 50px 100px rgb(58 130 246 / 25%);
   }
 }
+
+.SliderRoot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  touch-action: none;
+  height: 20px;
+}
+
+.SliderTrack {
+  background-color: gray;
+  position: relative;
+  flex-grow: 1;
+  border-radius: 9px;
+  height: 5px;
+}
+
+.SliderRange {
+  position: absolute;
+  background-color: white;
+  border-radius: 99px;
+  height: 100%;
+}
+
+.SliderRoot:hover .SliderRange {
+  background-color: #22c55e;
+
+}
+
+.SliderRoot:hover .SliderThumb {
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .5);
+}
+
+.SliderThumb {
+  display: block;
+  width: 15px;
+  height: 15px;
+  background-color: transparent;
+  border-radius: 10px;
+}
