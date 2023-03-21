@@ -28,15 +28,14 @@ export default function Likes () {
     <Layout title='Likes'>
       <div className='flex justify-between'>
         <h2 className='text-neutral-100 flex gap-1.5 font-bold text-4xl'>
-          <span>Likes -</span>
-          <span className='text-blue-300'>{Boolean(favorites)? favorites.length : 0}</span>
+          <span>Likes</span>
         </h2>
         <div className='flex items-center gap-3'>
-          <BtnPlay songs={favorites} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md' />
-          <BtnShuffle songs={favoritesToShuffle} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md' />
+          <BtnPlay songs={favorites} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
+          <BtnShuffle songs={favoritesToShuffle} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
         </div>
       </div>
-      <div className='grid gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
+      <div className='grid gap-3 md:gap-7 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
         {favorites?.map((song: TRACK) => (( 
           <CardSong key={song.id} song={song} />
         )))}
