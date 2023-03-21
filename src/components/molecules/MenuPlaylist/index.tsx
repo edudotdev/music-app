@@ -53,16 +53,16 @@ export const MenuPlaylist = ({
     <div className='z-50'>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className='text-blue-100 py-2 px-3 w-full text-start text-sm font-semibold hover:bg-blue-300/20'
+        className='text-white py-1.5 px-2 text-xs w-full text-start font-semibold hover:bg-neutral-400/10'
       >Add to Playlist</button>
-      <div className='relative right-full -translate-x-5 -top-[46px]'>
+      <div className='relative right-full -translate-x-9 -top-[46px]'>
         {isOpen && (
-          <div className='absolute rounded-md bg-neutral-900/95 shadow-lg w-40 max-h-[210px] overflow-y-auto py-2.5 content'>
+          <div className='absolute rounded-md bg-neutral-900/95 shadow-lg w-36 max-h-[210px] overflow-y-auto py-2.5 content'>
             <form onSubmit={(e) => handleSubmit(e)}>
-              <input type="text" onChange={(e) => handleChange(e)} value={namePlaylist} placeholder='add playlist...' className='w-full text-sm outline-none bg-transparent focus:bg-blue-300/20 border-transparent text-white pl-3 py-2' />
+              <input type="text" onChange={(e) => handleChange(e)} value={namePlaylist} placeholder='add playlist...' className='w-full text-sm outline-none bg-transparent focus:bg-neutral-400/10 border-transparent text-white pl-3 py-2' />
             </form>
             {playlists.length > 0 && playlists.map((playlist:PLAYLIST) => (
-              <button key={playlist.uuid} onClick={() => handleClick(playlist)} className='cursor-pointer flex gap-2 w-full text-start hover:bg-blue-300/20 py-2 px-3 text-sm font-semibold text-blue-100' title={playlist.name}>
+              <button key={playlist.uuid} onClick={() => handleClick(playlist)} className='cursor-pointer flex gap-2 w-full text-start hover:bg-neutral-400/10 py-1.5 px-2 text-xs font-semibold text-white' title={playlist.name}>
                 <Playlist size={17} color="#dbeafe" weight="fill" /> <span className='truncate'>{playlist.name}</span>
               </button>
             ))}
