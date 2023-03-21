@@ -16,3 +16,5 @@ export type TEXTINFO = {
   text: string,
   active: boolean
 }
+
+export type REPEAT = 'inactive' | 'repeat' | 'repeatOnce' 
