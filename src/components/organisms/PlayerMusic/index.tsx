@@ -1,9 +1,10 @@
-import { MusicNoteSimple, SkipBack, SkipForward, Play, Pause, Queue } from "phosphor-react"
+import { MusicNoteSimple, SkipBack, SkipForward, Play, Pause, Queue, ArrowsOutSimple } from "phosphor-react"
 import Image from 'next/image'
 import { shallow } from 'zustand/shallow'
 import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { useEffect, useRef, useState } from "react"
-import { MusicIndicator, BtnQueue, ControlVolume, ControlTime } from '@/components/atoms'
+import { BtnQueue, BtnRepeat, ControlVolume, ControlTime } from '@/components/atoms'
+import { useStatusRepeat } from "@/store/repeatStore"
 
 export const PlayerMusic = () => {
   const inputRef = useRef<HTMLAudioElement>(null)
@@ -16,8 +17,12 @@ export const PlayerMusic = () => {
   const {index} = usePlayerIndexStore((state) => ({
     index: state.index
   }), shallow)
+  const { setIndex } = usePlayerIndexStore()
 
-  const {setIndex} = usePlayerIndexStore()
+  const { statusRepeat } = useStatusRepeat((state) => ({
+    statusRepeat: state.statusRepeat
+  }), shallow)
+  
   const {music, image, title, artist} = tracks[index]
 
   useEffect(() => {
@@ -32,13 +37,26 @@ export const PlayerMusic = () => {
       inputRef?.current?.play()
       setActive(true)
     }
-    if (inputRef?.current) inputRef.current.currentTime = 0;
+    if (inputRef?.current) inputRef.current.currentTime = 0
   }, [tracks])
 
-
   const handleEnd = () =>  {
-    if (inputRef?.current) setActive(false)
-    nextSong()
+    if(statusRepeat === 'inactive') {
+      if (inputRef?.current) setActive(false)
+      nextSong()
+    } else if(statusRepeat === 'repeat') {
+      if(tracks.length === (index + 1)) {
+        setIndex(0)
+      } else {
+        if (inputRef?.current) setActive(false)
+        nextSong()
+      }
+    } else {
+      if (inputRef?.current) {
+        inputRef.current.currentTime = 0
+        inputRef.current.play()
+      }
+    }
   }
 
   const handlePlayPause = () =>  {
@@ -61,6 +79,8 @@ export const PlayerMusic = () => {
       if (inputRef?.current) {
         inputRef.current.currentTime = 0;
       }
+    } else if(index === tracks.length-1 && statusRepeat !== 'inactive') {
+      setIndex(0)
     }
   }
 
@@ -73,8 +93,8 @@ export const PlayerMusic = () => {
       } else (inputRef.current.currentTime = 0)
     }
   }
-  const [currentTime, setCurrentTime] = useState(0);
 
+  const [currentTime, setCurrentTime] = useState(0);
 
   const handleTimeUpdate = (event: React.SyntheticEvent<HTMLAudioElement>) => {
     const target = event.target as HTMLAudioElement;
@@ -83,22 +103,20 @@ export const PlayerMusic = () => {
   };
 
   const [duration, setDuration] = useState(0)
-
-
+  
   const handleDuration = (event: React.SyntheticEvent<HTMLAudioElement>) => {
     const target = event.target as HTMLAudioElement;
     const newDuration = target.duration;
     setDuration(newDuration);
-  };
-
+  }
 
   return (
-    <div className='flex justify-between w-full z-[9999] mx-auto min-h-[85px]'>
-      <div className="flex min-w-[280px]">
-        <div className='bg-neutral-800 rounded-lg w-[85px] min-w-85px] aspect-square grid place-content-center'>
+    <div className='flex justify-between w-full z-[9999] mx-auto h-[70px]'>
+      <div className="flex min-w-[280px] items-center" >
+        <div className='bg-neutral-800 w-[60px] h-[60px] aspect-square grid place-content-center'>
           {image.length > 0 
-            ? <Image src={image} width={85} height={85} alt={title} className="rounded-lg aspect-square" />          
-            : <MusicNoteSimple size={45} color="#aaa" weight="fill" />
+            ? <Image src={image} width={60} height={60} alt={title} className="rounded-md aspect-square" />          
+            : <MusicNoteSimple size={30} color="#aaa" weight="fill" />
           }
         </div>
         <div className="flex flex-col items-center justify-center pl-4">
@@ -110,36 +128,33 @@ export const PlayerMusic = () => {
       </div>
       <div className='relative w-full grid'>
         <div className="grid w-full h-full place-items-center">
-          <div className="relative w-full max-w-2xl flex flex-col gap-2 items-center justify-center overflow-hidden">
-            <div className="flex gap-2.5">
-              {Boolean(tracks.length) && 
-                <button onClick={prevSong} className='p-2 opacity-75 hover:opacity-100'>
-                  <SkipBack size={24} color="#fff" weight="fill" />
-                </button>}
-              <button onClick={() => handlePlayPause()} className='p-2.5 rounded-full bg-white'>
-                {active && <Pause size={26} color="#0f0f0f" weight="fill" />}
-                {!active && <Play size={26} color="#0f0f0f" weight="fill" />}
+          <div className="relative w-full max-w-2xl flex flex-col gap-2.5 items-center justify-center">
+            <div className="flex gap-4">
+              <button onClick={prevSong} className='p-2 opacity-75 hover:opacity-100'>
+                <SkipBack size={20} color="#fff" weight="fill" />
               </button>
-              {Boolean(tracks.length) && 
-                <button onClick={nextSong} className='p-2 opacity-75 hover:opacity-100'>
-                  <SkipForward size={24} color="#fff" weight="fill" />
-                </button>}
+              <button onClick={() => handlePlayPause()} className='p-2 rounded-full bg-white hover:scale-[1.08] transition-transform'>
+                {active && <Pause size={20} color="#0f0f0f" weight="fill" />}
+                {!active && <Play size={20} color="#0f0f0f" weight="fill" />}
+              </button>
+              <button onClick={nextSong} className='p-2 opacity-75 hover:opacity-100'>
+                <SkipForward size={20} color="#fff" weight="fill" />
+              </button>
+              <BtnRepeat />
             </div>
             <div className="flex w-full items-center">
               <div className="relative w-full">
                 <audio ref={inputRef} onEnded={handleEnd} onLoadedMetadata={handleDuration} onTimeUpdate={handleTimeUpdate} className='w-full -translate-y-[13px]' src={music} />
                 <ControlTime duration={duration} audioRef={inputRef} active={active} currentTime={currentTime} setCurrentTime={setCurrentTime} />
               </div>
-              <div className="grid place-items-center right-0 -bottom-1 bg-[#0f0f0f] w-10 h-9">
-                <MusicIndicator active={active} /> 
-              </div>
             </div>
           </div>
         </div>
       </div> 
-      <div className="flex justify-end min-w-[280px]">
-        <ControlVolume audioRef={inputRef} />
+      <div className="flex gap-1 justify-end items-center min-w-[280px]">
         <BtnQueue />
+        <ControlVolume audioRef={inputRef} />
+        <ArrowsOutSimple size={24} color="#fff" weight="fill" className="opacity-75 hover:opacity-100 ml-1" />
       </div>
     </div>
   )
