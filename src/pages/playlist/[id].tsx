@@ -8,15 +8,18 @@ import { getPlaylistByUUID } from '@/services/playlists'
 import { BtnPlay, BtnShuffle } from '@/components/atoms'
 import { TablePlaylist } from '@/components/organisms'
 
-
 export default function Playlist ()  {
   const router = useRouter()
 
   const [playlist, setPlaylist] = useState<PLAYLIST>()
   const [songToShuffle, setSongToShuffle] = useState<TRACK[]>()
-  const [name, setName] = useState()
 
-  const uuid = router.query.id as string
+  const uuid = router.query?.id as string
+
+  const handleSongsToShuffle = async (uuid: string) => {
+    const data = await getPlaylistByUUID(uuid)
+    setSongToShuffle(data?.song)
+  }
 
   useEffect(() => {
     handlePlaylist(uuid)
@@ -25,24 +28,7 @@ export default function Playlist ()  {
 
   const handlePlaylist = async (uuid: string) => {
     const data = await getPlaylistByUUID(uuid)
-    setName(data?.name)
     setPlaylist(data)
-    console.log(data, 'data uwu')
-  }
-
-  const handleSongsToShuffle = async (uuid: string) => {
-    const data = await getPlaylistByUUID(uuid)
-    setSongToShuffle(data.song)
-  }
-
-  const handleChange = (e:any) => {
-    setName(e.target.value)
-  }
-
-  const handleBlur = (e:any) => {
-    if (playlist?.name !== e.target.value) {
-      // edit name
-    }
   }
   
   return (
@@ -56,11 +42,11 @@ export default function Playlist ()  {
           <ThumbnailPlaylist songs={playlist.song} />
         </div>
         <div className='flex flex-col items-center lg:items-start gap-2 lg:gap-5 w-full'>
-          <input type='text' value={name} onChange={handleChange} onBlur={handleBlur} className='w-full text-center lg:text-left sm:text-2xl lg:text-4xl font-bold text-white bg-transparent' />
+          <h1 className='w-full text-center lg:text-left sm:text-2xl lg:text-4xl font-bold text-white bg-transparent'>{playlist.name}</h1> 
           <h3 className='text-lg text-neutral-300'>{playlist.song.length} Songs</h3>
           <div className='flex items-center gap-2.5'>
-            <BtnPlay songs={playlist.song} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md' />
-            <BtnShuffle songs={songToShuffle} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md' />
+            <BtnPlay songs={playlist.song} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
+            <BtnShuffle songs={songToShuffle} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
           </div>
         </div>
       </div>)}
