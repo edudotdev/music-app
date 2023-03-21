@@ -13,7 +13,6 @@ export const getPlaylists = async () => {
 export const getPlaylistByUUID = async (uuid: string) => {
   const data = await localForage.getItem('playlists').then((result: any) => {
     if (result === null) result = []
-    console.log(result)
     const playlist = result.find((playlist: PLAYLIST) => playlist.uuid === uuid)
     return playlist
   })
