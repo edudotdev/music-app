@@ -20,10 +20,10 @@ export default function Playlists () {
   return (
     <Layout title='Playlists'>
      <div className='flex justify-between'>
-      <h2 className='text-neutral-100 font-bold text-4xl'>Playlists - <span className='text-blue-300'>{Boolean(playlists)? playlists?.length : 0}</span></h2>
-      <button onClick={() => setShowModal(true)} className='flex items-center justify-center gap-2 bg-blue-500 py-2 w-32 text-white text-sm font-semibold rounded-md outline-none'>New Playlist</button>
+      <h2 className='text-neutral-100 font-bold text-4xl'>Playlists</h2>
+      <button onClick={() => setShowModal(true)} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-full outline-none'>New Playlist</button>
      </div>
-      <div className='grid gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
+      <div className='grid gap-3 sm:gap-7 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
         {playlists?.map((playlist:PLAYLIST) => (
           <CardPlaylist key={playlist.uuid} playlist={playlist} />
         ))}
