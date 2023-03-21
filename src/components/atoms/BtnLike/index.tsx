@@ -51,7 +51,7 @@ export const BtnLike = ({
 
   return (
     <button onClick={handleClick} className={`p-2 hover:scale-110 transition-all bg-neutral-900/90 rounded-full ${active? 'grayscale-0' : 'grayscale'} ${className}`}>
-      <Heart size={25} color="#ef4444" weight="fill" className='' />
+      <Heart size={25} color="#22c55e" weight="fill" className='' />
     </button>
   )
 }
