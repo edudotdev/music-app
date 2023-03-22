@@ -17,15 +17,13 @@ export const discover = async () => {
       'X-RapidAPI-Key': process.env.RAPIDAPI_KEY_TWO,
       'X-RapidAPI-Host': 'shazam-core.p.rapidapi.com'
     }
-  };
-  
+  }
 
   const dataAxios = axios.request(options).then(function (response) {
     let cleanData:any = []
   
     response.data.map((hit:any, index: number) => {
       const {hub, images, title, subtitle, key} = hit
-      console.log(index)
 
       if(hub.actions === undefined) return
 
