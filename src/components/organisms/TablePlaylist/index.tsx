@@ -46,7 +46,7 @@ export const TablePlaylist = ({
               </td>
               <td className="hidden lg:table-cell relative text-xs lg:text-base truncate p-1.5 md:p-2.5 align-middle text-neutral-400 md:py-2 md:pl-0 ">{song.artist}</td>
               <td className="text-xs lg:text-base truncate relative pr-5 py-1.5 align-right text-neutral-300 md:py-2 text-right">
-               <div className='flex justify-end'>
+               <div className='flex justify-end cursor-not-allowed'>
                 <DotsThreeOutline size={18} color="#fff" weight="fill" />
                </div>
               </td>
@@ -54,6 +54,6 @@ export const TablePlaylist = ({
           ))}
         </tbody>
       </table>
-      </div>
+    </div>
   )
 }
