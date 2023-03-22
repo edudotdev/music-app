@@ -35,7 +35,7 @@ export default function Likes () {
           <BtnShuffle songs={favoritesToShuffle} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
         </div>
       </div>
-      <div className='grid gap-3 md:gap-7 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
+      <div className='grid gap-3 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
         {favorites?.map((song: TRACK) => (( 
           <CardSong key={song.id} song={song} />
         )))}
