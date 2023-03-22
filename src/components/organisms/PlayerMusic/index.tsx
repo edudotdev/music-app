@@ -1,10 +1,11 @@
-import { MusicNoteSimple, SkipBack, SkipForward, Play, Pause, Queue, ArrowsOutSimple } from "phosphor-react"
+import { MusicNoteSimple, SkipBack, SkipForward, Play, Pause, Queue, ArrowsOutSimple, ShuffleAngular } from "phosphor-react"
 import Image from 'next/image'
 import { shallow } from 'zustand/shallow'
 import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { useEffect, useRef, useState } from "react"
 import { BtnQueue, BtnRepeat, ControlVolume, ControlTime } from '@/components/atoms'
 import { useStatusRepeat } from "@/store/repeatStore"
+import { Tooltip } from "@/components/molecules"
 
 export const PlayerMusic = () => {
   const inputRef = useRef<HTMLAudioElement>(null)
@@ -27,8 +28,12 @@ export const PlayerMusic = () => {
 
   useEffect(() => {
     if (tracks[0].id.length !== 0) {
-      inputRef?.current?.play()
+      inputRef.current?.play()
       setActive(true)
+      if (inputRef.current?.readyState === 4) {
+        inputRef.current.play()
+          .catch(error => console.log(error));
+      }
     }
   }, [index, tracks])
 
@@ -73,13 +78,8 @@ export const PlayerMusic = () => {
   const nextSong = () =>  {
     if(index < tracks.length-1) {
       setIndex(index+1)
-      setActive(true)
-      inputRef?.current?.play()
-      
-      if (inputRef?.current) {
-        inputRef.current.currentTime = 0;
-      }
-    } else if(index === tracks.length-1 && statusRepeat !== 'inactive') {
+
+    } else {
       setIndex(0)
     }
   }
@@ -130,15 +130,25 @@ export const PlayerMusic = () => {
         <div className="grid w-full h-full place-items-center">
           <div className="relative w-full max-w-2xl flex flex-col gap-2.5 items-center justify-center">
             <div className="flex gap-4">
+              <button disabled={true} className='cursor-not-allowed'>
+                <Tooltip text="Shuffle">
+                  <ShuffleAngular size={20} color="#ccc" weight="bold" />
+                </Tooltip>   
+              </button>               
+
               <button onClick={prevSong} className='p-2 opacity-75 hover:opacity-100'>
-                <SkipBack size={20} color="#fff" weight="fill" />
+                <Tooltip text="Previous">
+                  <SkipBack size={20} color="#fff" weight="fill" />
+                </Tooltip>                  
               </button>
               <button onClick={() => handlePlayPause()} className='p-2 rounded-full bg-white hover:scale-[1.08] transition-transform'>
-                {active && <Pause size={20} color="#0f0f0f" weight="fill" />}
-                {!active && <Play size={20} color="#0f0f0f" weight="fill" />}
+                {active &&  <Tooltip text="Play"><Pause size={20} color="#0f0f0f" weight="fill" /></Tooltip>}
+                {!active && <Tooltip text="Pause"><Play size={20} color="#0f0f0f" weight="fill" /></Tooltip>}
               </button>
               <button onClick={nextSong} className='p-2 opacity-75 hover:opacity-100'>
-                <SkipForward size={20} color="#fff" weight="fill" />
+                <Tooltip text="Next">
+                  <SkipForward size={20} color="#fff" weight="fill" />
+                </Tooltip>  
               </button>
               <BtnRepeat />
             </div>
@@ -154,7 +164,11 @@ export const PlayerMusic = () => {
       <div className="flex gap-1 justify-end items-center min-w-[280px]">
         <BtnQueue />
         <ControlVolume audioRef={inputRef} />
-        <ArrowsOutSimple size={24} color="#fff" weight="fill" className="opacity-75 hover:opacity-100 ml-1" />
+        <button disabled={true} className='cursor-not-allowed'>
+          <Tooltip text="Full screen">
+            <ArrowsOutSimple size={24} color="#fff" weight="fill" className="opacity-75 hover:opacity-100 ml-1" />
+          </Tooltip>
+        </button>
       </div>
     </div>
   )
