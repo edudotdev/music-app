@@ -1,7 +1,6 @@
 export * from './Search'
 export * from './NavLink'
 export * from './CardSong'
-export * from './CardTopSong'
 export * from './MenuPlaylist'
 export * from './CardPlaylist'
 export * from './CardQueue'
