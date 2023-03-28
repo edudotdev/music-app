@@ -26,7 +26,7 @@ const Search: NextPage = () => {
         {isLoading && <SkeletonSearch />}
         {data&&data.songs?.map((song: TRACK, index:number) => ((
           <div key={song.id}>
-            <CardSong songs={data.songs} position={index} />
+            <CardSong songs={[...data.songs]} position={index} />
           </div>
         )))}
       </div>
