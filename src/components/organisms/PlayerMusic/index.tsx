@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { shallow } from 'zustand/shallow'
 import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { useEffect, useRef, useState } from "react"
-import { BtnQueue, BtnRepeat, ControlVolume, ControlTime } from '@/components/atoms'
+import { BtnQueue, BtnRepeat, ControlVolume, ControlTime, BtnStatusShuffle } from '@/components/atoms'
 import { useStatusRepeat } from "@/store/repeatStore"
 import { Tooltip } from "@/components/molecules"
 
@@ -48,6 +48,7 @@ export const PlayerMusic = () => {
   const handleEnd = () =>  {
     if(statusRepeat === 'inactive') {
       if (inputRef?.current) setActive(false)
+      if(tracks.length === (index + 1)) return
       nextSong()
     } else if(statusRepeat === 'repeat') {
       if(tracks.length === (index + 1)) {
@@ -130,12 +131,7 @@ export const PlayerMusic = () => {
         <div className="grid w-full h-full place-items-center">
           <div className="relative w-full max-w-2xl flex flex-col gap-2.5 items-center justify-center">
             <div className="flex gap-4">
-              <button disabled={true} className='cursor-not-allowed'>
-                <Tooltip text="Shuffle">
-                  <ShuffleAngular size={20} color="#ccc" weight="bold" />
-                </Tooltip>   
-              </button>               
-
+              <BtnStatusShuffle />
               <button onClick={prevSong} className='p-2 opacity-75 hover:opacity-100'>
                 <Tooltip text="Previous">
                   <SkipBack size={20} color="#fff" weight="fill" />
