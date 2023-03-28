@@ -1,6 +1,7 @@
 import { TRACK } from '@/types'
-import React from 'react'
+import { shuffle } from '@/services/shuffleSongs'
 import { usePlayerIndexStore, usePlayerStore} from '@/store/playerStore'
+import { useStatusShuffle } from '@/store/shuffleStore'
 import { Play } from 'phosphor-react'
 
 interface BtnPlayProps {
@@ -21,10 +22,26 @@ export const BtnPlay = ({
   const {setTrack} = usePlayerStore()
   const {setIndex} = usePlayerIndexStore()
 
+  const { statusShuffle } = useStatusShuffle((state) => ({
+    statusShuffle: state.statusShuffle
+  }))
+
   const handleClick = () => {
-    if(songs.length === 0) return
-    setIndex(position || 0)
-    setTrack(songs)
+    if (songs.length === 0) return
+    if (statusShuffle && position !== undefined) {
+      const selectSong = songs[position]
+      let copySongs = [...songs]
+      copySongs.splice(position, 1)
+      copySongs = shuffle(copySongs)
+      setTrack([selectSong, ...copySongs])
+      setIndex(0)
+    } else if(statusShuffle) {
+      setTrack(shuffle([...songs]))
+      setIndex(position || 0)
+    } else {
+      setTrack(songs)
+      setIndex(position || 0)
+    }
   }
 
   return (
