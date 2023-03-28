@@ -12,18 +12,11 @@ export default function Playlist ()  {
   const router = useRouter()
 
   const [playlist, setPlaylist] = useState<PLAYLIST>()
-  const [songToShuffle, setSongToShuffle] = useState<TRACK[]>()
 
   const uuid = router.query?.id as string
 
-  const handleSongsToShuffle = async (uuid: string) => {
-    const data = await getPlaylistByUUID(uuid)
-    setSongToShuffle(data?.song)
-  }
-
   useEffect(() => {
     handlePlaylist(uuid)
-    handleSongsToShuffle(uuid)
   }, [uuid])
 
   const handlePlaylist = async (uuid: string) => {
@@ -45,8 +38,8 @@ export default function Playlist ()  {
           <h1 className='w-full text-center lg:text-left sm:text-2xl lg:text-4xl font-bold text-white bg-transparent'>{playlist.name}</h1> 
           <h3 className='text-lg text-neutral-300'>{playlist.song.length} Songs</h3>
           <div className='flex items-center gap-2.5'>
-            <BtnPlay songs={playlist.song} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
-            <BtnShuffle songs={songToShuffle} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
+            <BtnPlay songs={[...playlist.song]} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
+            <BtnShuffle songs={[...playlist.song]} className='flex items-center justify-center gap-2 bg-green-600 py-2 w-32 text-white text-sm font-semibold rounded-md' />
           </div>
         </div>
       </div>)}
