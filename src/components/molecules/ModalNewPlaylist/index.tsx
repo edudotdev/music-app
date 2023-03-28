@@ -28,21 +28,24 @@ export const ModalNewPlaylist = ({
     };
   }, [escFunction])
 
-  const handleClickOutside = () => {
-    setShowModal(false)
-  }
-
-  useExternalClick(modal, handleClickOutside)
- 
   const handleSubmit = async (e:any) => {
     e.preventDefault()
-    setShowModal(false)
     newPlaylist(namePlaylist, [])
     setTextInfo({
       text:'Playlist created',
       active: true
     })
+    setTimeout(() => {
+      setShowModal(false)
+    }, 100)
   }
+
+  const handleClickOutside = () => {
+    setShowModal(false)
+  }
+
+  useExternalClick(modal, handleClickOutside)
+
 
   const handleChange = (e:any) => {
     setNamePlaylist(e.target.value)
