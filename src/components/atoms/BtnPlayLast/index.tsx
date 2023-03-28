@@ -6,11 +6,13 @@ import { shallow } from 'zustand/shallow'
 import { useActionInfoStore } from '@/store/actionInfoStore'
 
 interface BtnPlayLastProps {
-  song: TRACK
+  song: TRACK,
+  className: string
 }
 
 export const BtnPlayLast = ({
   song,
+  className
 }:BtnPlayLastProps) => {
   const { setTextInfo } = useActionInfoStore()
   const {tracks} = usePlayerStore((state) => ({
@@ -26,9 +28,8 @@ export const BtnPlayLast = ({
   }
   
   return (
-    <button onClick={handleAddQueue} className='text-white group flex gap-1.5 w-full items-center py-1.5 px-2 text-xs transition-[padding] font-semibold hover:bg-neutral-400/10'>
-      {/* <MusicNotesPlus size={17} color='#dbeafe' weight="fill" /> */}
-      <span>Play last </span>
+    <button onClick={handleAddQueue} className={className}>
+      <span>Play last</span>
     </button>
   )
 }

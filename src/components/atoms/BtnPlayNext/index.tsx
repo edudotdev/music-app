@@ -5,18 +5,20 @@ import { shallow } from 'zustand/shallow'
 
 interface BtnPlayNextProps {
   song: TRACK
+  className: string
 }
 
 export const BtnPlayNext = ({
-  song
+  song,
+  className
 }:BtnPlayNextProps) => {
   const {tracks} = usePlayerStore((state) => ({
     tracks: state.tracks
-  }), shallow)
+  }))
 
   const {index} = usePlayerIndexStore((state) => ({
     index: state.index
-  }), shallow)
+  }))
 
   const { setTextInfo } = useActionInfoStore()
 
@@ -30,7 +32,7 @@ export const BtnPlayNext = ({
   }
 
   return (
-    <button onClick={handlePlayNext} className='text-white group flex gap-1.5 w-full items-center py-1.5 px-2 text-xs font-semibold hover:bg-neutral-400/10'>
+    <button onClick={handlePlayNext} className={className}>
       Play next
     </button>
   )
