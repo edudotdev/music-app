@@ -57,9 +57,9 @@ export const MenuPlaylist = ({
         onMouseEnter={() => setIsOpen(true)}
         className={className}
       >Add to Playlist</button>
-      <div className='relative right-full -translate-x-9 -top-[80px]'>
+      <div className='relative right-full -translate-x-9 -top-[50px]'>
         {isOpen && (
-          <div className='absolute rounded-md bg-neutral-900/95 shadow-lg w-36 max-h-[210px] overflow-y-auto py-2.5 content'>
+          <div className='absolute rounded-md bg-neutral-900/95 shadow-lg w-36 max-h-[210px] overflow-y-auto py-2.5'>
             <form onSubmit={(e) => handleSubmit(e)}>
               <input type="text" onChange={(e) => handleChange(e)} value={namePlaylist} placeholder='add playlist...' className='w-full text-sm outline-none bg-transparent focus:bg-neutral-400/10 border-transparent text-white pl-3 py-2' />
             </form>
