@@ -1,15 +1,17 @@
 import Image from 'next/image'
 import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
-import { BtnLike, BtnOptionsSong } from '@/components/atoms'
+import { BtnLike, BtnOptionsSong, BtnPlay } from '@/components/atoms'
 import { useState } from 'react';
 import { TRACK } from '@/types'
 
 interface CardSongProps {
-  song: TRACK
+  songs: TRACK[]
+  position: number
 }
 
 export const CardSong = ({
-  song: {id, music, title, artist, image}
+  songs,
+  position
 }:CardSongProps) => {
   const {setTrack} = usePlayerStore()
   const {setIndex} = usePlayerIndexStore()
@@ -17,21 +19,18 @@ export const CardSong = ({
   const [showMenu, setShowMenu] = useState(false)
 
   const handlePlay = () => {
-    setIndex(0)
-    setTrack([{
-      id,
-      music,
-      title,
-      artist,
-      image
-    }])
+    setIndex(position)
+    setTrack(songs)
   }
+ 
+  const {id,music,title, artist,image} = songs[position]
 
   return (
     <div className='relative group' onMouseLeave={() => setShowMenu(false)}>
       <BtnLike song={{id,music,title, artist,image}} className='absolute group-hover:z-10 opacity-0 group-hover:opacity-100 right-2 top-2 transition-all'  />
-      <BtnOptionsSong song={{id,music,title, artist,image}} setShowMenu={setShowMenu} showMenu={showMenu} className='opacity-0 group-hover:opacity-100 transition-all' />
-      <div onClick={handlePlay} className='relative cursor-pointer rounded-xl overflow-hidden active:scale-[.99] transition-transform'>
+      <BtnPlay songs={songs} position={position} className='absolute group-hover:z-10 opacity-0 bg-green-500 p-4 rounded-full shadow-xl bottom-[64px] left-2 group-hover:opacity-100 transition-opacity' showText={false} />
+      <BtnOptionsSong songs={songs} position={position} setShowMenu={setShowMenu} showMenu={showMenu} className='opacity-0 group-hover:opacity-100 transition-all' />
+      <div className='relative rounded-xl overflow-hidden'>
         <Image src={image} width={400} height={400} className='w-full' alt={title} />
         <div className='h-14 relative overflow-hidden rounded-b-xl'>
           <Image src={image} width={400} height={400} className='absolute h-[900px] saturate-150 -bottom-9 blur-2xl' quality={1} alt={title} />
