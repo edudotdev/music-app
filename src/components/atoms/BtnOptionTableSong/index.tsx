@@ -30,7 +30,7 @@ export const BtnOptionTableSong = ({
         <DotsThreeOutline size={18} color="#fff" weight="fill" />
       </button>
       {showMenu &&
-        <div ref={button} onClick={() => setShowMenu(!showMenu)} className='absolute right-12 top-0 rounded-md w-32 bg-neutral-900 text-white text-base shadow-2xl p-1 z-10'>
+        <div ref={button} className='absolute right-12 top-0 rounded-md w-32 bg-neutral-900 text-white text-base shadow-2xl p-1 z-10'>
           <MenuPlaylist song={songs[index]} className='text-left p-1.5 hover:bg-neutral-700 text-sm rounded-md w-full' />
           <hr className='opacity-40' />
           <BtnPlay songs={songs} position={index} showIcon={false} className='text-left p-1.5 hover:bg-neutral-700 rounded-md w-full' />
