@@ -6,11 +6,13 @@ import { Playlist } from 'phosphor-react';
 import { useActionInfoStore } from '@/store/actionInfoStore'
 
 interface MenuPlaylistProps {
-  song: TRACK
+  song: TRACK,
+  className: string
 }
 
 export const MenuPlaylist = ({
   song,
+  className
 }:MenuPlaylistProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [namePlaylist, setNamePlaylist] = useState('')
@@ -52,10 +54,10 @@ export const MenuPlaylist = ({
   return (
     <div className='z-50'>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className='text-white py-1.5 px-2 text-xs w-full text-start font-semibold hover:bg-neutral-400/10'
+        onMouseEnter={() => setIsOpen(true)}
+        className={className}
       >Add to Playlist</button>
-      <div className='relative right-full -translate-x-9 -top-[46px]'>
+      <div className='relative right-full -translate-x-9 -top-[80px]'>
         {isOpen && (
           <div className='absolute rounded-md bg-neutral-900/95 shadow-lg w-36 max-h-[210px] overflow-y-auto py-2.5 content'>
             <form onSubmit={(e) => handleSubmit(e)}>
