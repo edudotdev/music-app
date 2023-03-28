@@ -13,16 +13,7 @@ export const CardSong = ({
   songs,
   position
 }:CardSongProps) => {
-  const {setTrack} = usePlayerStore()
-  const {setIndex} = usePlayerIndexStore()
-
   const [showMenu, setShowMenu] = useState(false)
-
-  const handlePlay = () => {
-    setIndex(position)
-    setTrack(songs)
-  }
- 
   const {id,music,title, artist,image} = songs[position]
 
   return (
