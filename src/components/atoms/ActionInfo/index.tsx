@@ -17,21 +17,21 @@ export const ActionInfo = ({
   const {setTextInfo} = useActionInfoStore()
 
   useEffect(() => {
-  if (Boolean(setTextInfo.length)) {
-    clearTimeout(timer)
-    const newTimer = setTimeout(() => {
-      setTextInfo({
-      text: textInfo.text,
-        active: false
-      })
-    }, 3000)
-    setTimer(newTimer)
-  }
+    if (Boolean(setTextInfo.length)) {
+      clearTimeout(timer)
+      const newTimer = setTimeout(() => {
+        setTextInfo({
+        text: textInfo.text,
+          active: false
+        })
+      }, 3000)
+      setTimer(newTimer)
+    }
   }, [textInfo])
 
   return (
-    <div className={`rounded-md bg-blue-500 absolute z-[99] left-1/2 -translate-x-1/2 bottom-[125px] transition-all duration-300 ${textInfo.active? 'py-3 px-5 visible bottom-[137px] opacity-100': 'py-0 px-0 invisible opacity-0'} ${className}`}>
-      <span className='text-white font-semibold'>
+    <div className={`rounded-md bg-blue-500 absolute z-[9999] left-1/2 -translate-x-1/2 whitespace-nowrap transition-opacity duration-300 ${textInfo.active? 'py-2.5 px-4 visible !bottom-[190px] md:!bottom-[148px] lg:!bottom-[112px] opacity-100': 'invisible py-0 px-0 opacity-0'} ${className}`}>
+      <span className='text-white font-semibold text-sm lg:text-base'>
         {textInfo.text}
       </span>
     </div>
