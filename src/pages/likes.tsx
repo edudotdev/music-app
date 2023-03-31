@@ -35,7 +35,7 @@ export default function Likes () {
         </div>
       </div>
       {favorites?.length === 0 &&
-        <div className='flex flex-col justify-center items-center gap-10 mt-36'>
+        <div className='flex flex-col justify-center items-center gap-10 mt-10 lg:mt-36'>
           <Heart size={130} color="#fff" weight="duotone" />
           <div className='flex flex-col gap-8'>
             <h2 className='text-2xl lg:text-4xl font-bold text-white'>Songs you like wil appear here</h2>
@@ -46,7 +46,7 @@ export default function Likes () {
           </div>
         </div>
       }
-      <div className='grid gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
+      <div className='grid gap-3 sm:gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
         {favorites?.map((song: TRACK, index: number) => (( 
           <CardSong key={song.id} songs={favorites} position={index} />
         )))}
