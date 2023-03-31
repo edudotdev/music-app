@@ -6,7 +6,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
 
+  if (req.query.song === undefined) return res.status(200).json([])
+
   const data = await searchSong(req.query.song as string)
 
-  res.status(200).json(data || [])
+  return res.status(200).json(data || [])
 }
