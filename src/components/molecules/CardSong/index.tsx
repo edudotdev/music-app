@@ -18,8 +18,8 @@ export const CardSong = ({
 
   return (
     <div className='relative group' onMouseLeave={() => setShowMenu(false)}>
-      <BtnLike song={{id,music,title, artist,image}} className='absolute group-hover:z-10 opacity-0 group-hover:opacity-100 right-2 top-2 transition-all'  />
-      <BtnPlay songs={songs} position={position} className='absolute group-hover:z-10 opacity-0 bg-green-500 p-4 rounded-full shadow-xl bottom-[64px] left-2 group-hover:opacity-100 transition-opacity' showText={false} />
+      <BtnLike song={{id,music,title, artist,image}} className='absolute z-10 opacity-0 group-hover:opacity-100 right-2 top-2 transition-all'  />
+      <BtnPlay songs={songs} position={position} className='absolute z-10 md:opacity-0 bg-green-500 p-2.5 md:p-4 rounded-full shadow-xl bottom-[64px] left-2 group-hover:opacity-100 transition-opacity' showText={false} />
       <BtnOptionsSong songs={songs} position={position} setShowMenu={setShowMenu} showMenu={showMenu} className='opacity-0 group-hover:opacity-100 transition-all' />
       <div className='relative rounded-xl overflow-hidden'>
         <Image src={image} width={400} height={400} className='w-full' alt={title} />
