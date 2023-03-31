@@ -17,12 +17,12 @@ export const Search = () => {
   }
 
   return (
-    <form onSubmit={e => handleSubmit(e)} className='mx-4'>
-      <div className='bg-white/10 w-full flex gap-3 text-sm text-blue-200 p-4 rounded-2xl'>
-        <MagnifyingGlass size={28} color="#fff" weight="fill" />
+    <form onSubmit={e => handleSubmit(e)} className=''>
+      <div className='bg-white/90 w-full flex gap-3 text-base p-3 rounded-lg'>
+        <MagnifyingGlass size={30} color="#000" weight="fill" />
         <input 
-          className='bg-transparent outline-none text-gray-200 w-full'
-          type="text" value={inputValue} onChange={e => handleChange(e)} placeholder='search music'   
+          className='bg-transparent outline-none text-black w-full'
+          type="text" value={inputValue} onChange={e => handleChange(e)} placeholder='Search artists or songs'   
         />
       </div>
     </form>
