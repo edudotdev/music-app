@@ -24,7 +24,7 @@ export const PlayerMusic = () => {
     statusRepeat: state.statusRepeat
   }), shallow)
   
-  const {music, image, title, artist} = tracks[index]
+  const {music, image, title, artist, id} = tracks[index]
 
   useEffect(() => {
     if (tracks[0].id.length !== 0) {
@@ -112,25 +112,26 @@ export const PlayerMusic = () => {
   }
 
   return (
-    <div className='flex justify-between w-full z-[9999] mx-auto h-[70px]'>
-      <div className="flex min-w-[280px] items-center" >
-        <div className='bg-neutral-800 w-[60px] h-[60px] aspect-square grid place-content-center'>
+    <div className='relative flex justify-between w-full z-[9999] mx-auto h-[70px]'>
+      <div className={`absolute lg:static -top-[52px] md:-top-[60px] lg:top-0 flex min-w-[280px] items-center w-full lg:w-[unset] p-1.5 lg:p-0 bg-neutral-800 lg:bg-transparent overflow-hidden`} >
+        <div className='bg-neutral-800 w-[40px] lg:w-[60px] lg:h-[60px] aspect-square grid place-content-center z-10'>
           {image.length > 0 
             ? <Image src={image} width={60} height={60} alt={title} className="rounded-md aspect-square" />          
             : <MusicNoteSimple size={30} color="#aaa" weight="fill" />
           }
         </div>
-        <div className="flex flex-col items-center justify-center pl-4">
-          <div className='flex flex-col gap-1.5'>
-            <h2 className='text-neutral-100 text-sm font-semibold'>{title}</h2>
+        <div className="flex flex-col items-center justify-center pl-2 lg:pl-4 z-10">
+          <div className='flex flex-col lg:gap-1.5'>
+            <h2 className='text-neutral-100 text-xs lg:text-sm font-semibold'>{title}</h2>
             <h3 className='text-neutral-400 text-xs'>{artist}</h3>
           </div>
         </div>
+        {image.length > 0 && <Image src={image} width={60} height={60} alt={title} className="w-full block lg:hidden absolute blur-2xl opacity-20 pointer-event-none z-0 saturate-200 mix-blend-lighten" /> }
       </div>
       <div className='relative w-full grid'>
         <div className="grid w-full h-full place-items-center">
           <div className="relative w-full max-w-2xl flex flex-col gap-2.5 items-center justify-center">
-            <div className="flex gap-4">
+            <div className="flex gap-4 order-2 md:order-none">
               <BtnStatusShuffle />
               <button onClick={prevSong} className='p-2 opacity-75 hover:opacity-100'>
                 <Tooltip text="Previous">
@@ -148,23 +149,21 @@ export const PlayerMusic = () => {
               </button>
               <BtnRepeat />
             </div>
-            <div className="flex w-full items-center">
-              <div className="relative w-full">
-                <audio ref={inputRef} onEnded={handleEnd} onLoadedMetadata={handleDuration} onTimeUpdate={handleTimeUpdate} className='w-full -translate-y-[13px]' src={music} />
-                <ControlTime duration={duration} audioRef={inputRef} active={active} currentTime={currentTime} setCurrentTime={setCurrentTime} />
-              </div>
+            <div className="relative flex w-full items-center order-1 md:order-none">
+              <audio ref={inputRef} onEnded={handleEnd} onLoadedMetadata={handleDuration} onTimeUpdate={handleTimeUpdate} className='w-full -translate-y-[13px]' src={music} />
+              <ControlTime duration={duration} audioRef={inputRef} active={active} currentTime={currentTime} setCurrentTime={setCurrentTime} />
             </div>
           </div>
         </div>
       </div> 
-      <div className="flex gap-1 justify-end items-center min-w-[280px]">
+      <div className={`absolute right-1.5 -top-[45px] md:-top-[53px] lg:static flex gap-1 justify-end items-center min-w-[280px]`}>
         <BtnQueue />
         <ControlVolume audioRef={inputRef} />
-        <button disabled={true} className='cursor-not-allowed'>
+        {/* <button disabled={true} className='cursor-not-allowed'>
           <Tooltip text="Full screen">
             <ArrowsOutSimple size={24} color="#fff" weight="fill" className="opacity-75 hover:opacity-100 ml-1" />
           </Tooltip>
-        </button>
+        </button> */}
       </div>
     </div>
   )

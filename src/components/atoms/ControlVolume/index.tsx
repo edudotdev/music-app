@@ -37,7 +37,7 @@ export const ControlVolume = ({
   }
 
   return (
-    <div className='flex gap-2 items-center'>
+    <div className='hidden lg:flex gap-2 items-center'>
       <button onClick={handleMute} className='opacity-75 hover:opacity-100'>
         {volume === 0 && <Tooltip text='Unmute'><SpeakerX size={22} color="#fff" weight="fill" /></Tooltip>}
         {(volume > 0 && volume <= 0.5) && <Tooltip text='Mute'><SpeakerLow size={22} color="#fff" weight="fill" /></Tooltip>}
