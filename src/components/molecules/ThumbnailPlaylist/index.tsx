@@ -17,7 +17,7 @@ export const ThumbnailPlaylist = ({
           <MusicNotesSimple size={70} color="#ccc" weight="fill" />
         </div>
       }
-      {songs.length < 4 &&
+      {songs.length < 4 && songs.length !== 0 &&
         <div className='h-full w-full'>
           {songs.slice(0, 1).map((song:TRACK, index:number) => (
             <Image src={song.image} key={index} height={500} width={500} alt={song.title} quality={80} className='' />
