@@ -1,169 +1,97 @@
-import { MusicNoteSimple, SkipBack, SkipForward, Play, Pause, Queue, ArrowsOutSimple, ShuffleAngular } from "phosphor-react"
-import Image from 'next/image'
-import { shallow } from 'zustand/shallow'
-import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { useEffect, useRef, useState } from "react"
-import { BtnQueue, BtnRepeat, ControlVolume, ControlTime, BtnStatusShuffle } from '@/components/atoms'
+
+import { shallow } from 'zustand/shallow'
 import { useStatusRepeat } from "@/store/repeatStore"
-import { Tooltip } from "@/components/molecules"
+import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
+
+import { BtnQueue, BtnRepeat, ControlVolume, ControlTime, BtnStatusShuffle, BtnPrevSong, BtnNextSong, BtnPlayPause } from '@/components/atoms'
+import { CurrentMusic } from "@/components/molecules"
+
+import { useCurrentTime } from "@/hooks/useCurrentTime"
+import { useDuration } from "@/hooks/useDuration"
 
 export const PlayerMusic = () => {
-  const inputRef = useRef<HTMLAudioElement>(null)
+  const audioRef = useRef<HTMLAudioElement>(null)
   const [active, setActive] = useState(false)
 
-  const {tracks} = usePlayerStore((state) => ({
+  const { tracks } = usePlayerStore((state) => ({
     tracks: state.tracks
   }), shallow)
 
-  const {index} = usePlayerIndexStore((state) => ({
+  const hasMusic = tracks[0].id.length !== 0
+
+  const { index } = usePlayerIndexStore((state) => ({
     index: state.index
   }), shallow)
+
   const { setIndex } = usePlayerIndexStore()
 
   const { statusRepeat } = useStatusRepeat((state) => ({
     statusRepeat: state.statusRepeat
   }), shallow)
   
-  const {music, image, title, artist, id} = tracks[index]
+  const {music, image, title, artist} = tracks[index]
 
   useEffect(() => {
-    if (tracks[0].id.length !== 0) {
-      inputRef.current?.play()
+    if (hasMusic) {
+      audioRef.current?.play()
       setActive(true)
-      if (inputRef.current?.readyState === 4) {
-        inputRef.current.play()
+      if (audioRef.current?.readyState === 4) {
+        audioRef.current.play()
           .catch(error => console.log(error));
       }
     }
   }, [index, tracks])
 
   useEffect(() => {
-    if (tracks[0].id.length !== 0) {
-      inputRef?.current?.play()
+    if (hasMusic) {
+      audioRef?.current?.play()
       setActive(true)
     }
-    if (inputRef?.current) inputRef.current.currentTime = 0
+    if (audioRef?.current) audioRef.current.currentTime = 0
   }, [tracks])
 
+  const nextSong = () => setIndex(index < tracks.length - 1 ? index + 1 : 0)
+ 
   const handleEnd = () =>  {
-    if(statusRepeat === 'inactive') {
-      if (inputRef?.current) setActive(false)
-      if(tracks.length === (index + 1)) return
-      nextSong()
-    } else if(statusRepeat === 'repeat') {
-      if(tracks.length === (index + 1)) {
-        setIndex(0)
-      } else {
-        if (inputRef?.current) setActive(false)
-        nextSong()
-      }
-    } else {
-      if (inputRef?.current) {
-        inputRef.current.currentTime = 0
-        inputRef.current.play()
-      }
+    if (statusRepeat === 'inactive') {
+      if (audioRef?.current) setActive(false);
+      return (tracks.length === (index + 1)) ? null : nextSong();
+    }
+    if (statusRepeat === 'repeat') {
+      return (tracks.length === (index + 1)) ? setIndex(0) : (audioRef?.current && setActive(false), nextSong());
+    }
+    if (audioRef?.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
     }
   }
 
-  const handlePlayPause = () =>  {
-    if (tracks[0].music.length === 0) return
-    if (active) {  
-      setActive(false)
-      inputRef?.current?.pause()
-    } else {
-      setActive(true) 
-      inputRef?.current?.play()
-    }
-  }
-
-  const nextSong = () =>  {
-    if(index < tracks.length-1) {
-      setIndex(index+1)
-
-    } else {
-      setIndex(0)
-    }
-  }
-
-  const prevSong = () =>  {
-    if (inputRef?.current) {
-      if(inputRef.current.currentTime < 3 && index !== 0) {
-        setIndex(index-1)
-        setActive(true) 
-        inputRef.current.play()
-      } else (inputRef.current.currentTime = 0)
-    }
-  }
-
-  const [currentTime, setCurrentTime] = useState(0);
-
-  const handleTimeUpdate = (event: React.SyntheticEvent<HTMLAudioElement>) => {
-    const target = event.target as HTMLAudioElement;
-    const newCurrentTime = target.currentTime;
-    setCurrentTime(newCurrentTime);
-  };
-
-  const [duration, setDuration] = useState(0)
+  const { currentTime, setCurrentTime, handleTimeUpdate } = useCurrentTime()
   
-  const handleDuration = (event: React.SyntheticEvent<HTMLAudioElement>) => {
-    const target = event.target as HTMLAudioElement;
-    const newDuration = target.duration;
-    setDuration(newDuration);
-  }
+  const { duration, handleDuration } = useDuration()
 
   return (
     <div className='relative flex justify-between w-full z-[9999] mx-auto h-[70px]'>
-      <div className={`absolute lg:static -top-[52px] md:-top-[60px] lg:top-0 flex min-w-[280px] items-center w-full lg:w-[unset] p-1.5 lg:p-0 bg-neutral-800 lg:bg-transparent overflow-hidden`} >
-        <div className='bg-neutral-800 w-[40px] lg:w-[60px] lg:h-[60px] aspect-square grid place-content-center z-10'>
-          {image.length > 0 
-            ? <Image src={image} width={60} height={60} alt={title} className="rounded-md aspect-square" />          
-            : <MusicNoteSimple size={30} color="#aaa" weight="fill" />
-          }
-        </div>
-        <div className="flex flex-col items-center justify-center pl-2 lg:pl-4 z-10">
-          <div className='flex flex-col lg:gap-1.5'>
-            <h2 className='text-neutral-100 text-xs lg:text-sm font-semibold'>{title}</h2>
-            <h3 className='text-neutral-400 text-xs'>{artist}</h3>
+      <CurrentMusic image={image} title={title} artist={artist} />
+      <div className="grid w-full h-full place-items-center">
+        <div className="relative w-full max-w-2xl flex flex-col gap-2.5 items-center justify-center">
+          <div className="flex gap-4 order-2 md:order-none">
+            <BtnStatusShuffle />
+            <BtnPrevSong audioRef={audioRef} setActive={setActive} />
+            <BtnPlayPause audioRef={audioRef} setActive={setActive} active={active} />
+            <BtnNextSong nextSong={nextSong} />
+            <BtnRepeat />
+          </div>
+          <div className="relative flex w-full items-center order-1 md:order-none">
+            <audio ref={audioRef} onEnded={handleEnd} onLoadedMetadata={handleDuration} onTimeUpdate={handleTimeUpdate} src={music} />
+            <ControlTime duration={duration} audioRef={audioRef} active={active} currentTime={currentTime} setCurrentTime={setCurrentTime} />
           </div>
         </div>
-        {image.length > 0 && <Image src={image} width={60} height={60} alt={title} className="w-full block lg:hidden absolute blur-2xl opacity-20 pointer-event-none z-0 saturate-200 mix-blend-lighten" /> }
       </div>
-      <div className='relative w-full grid'>
-        <div className="grid w-full h-full place-items-center">
-          <div className="relative w-full max-w-2xl flex flex-col gap-2.5 items-center justify-center">
-            <div className="flex gap-4 order-2 md:order-none">
-              <BtnStatusShuffle />
-              <button onClick={prevSong} className='p-2 opacity-75 hover:opacity-100'>
-                <Tooltip text="Previous">
-                  <SkipBack size={20} color="#fff" weight="fill" />
-                </Tooltip>                  
-              </button>
-              <button onClick={() => handlePlayPause()} className='p-2 rounded-full bg-white hover:scale-[1.08] transition-transform'>
-                {active &&  <Tooltip text="Play"><Pause size={20} color="#0f0f0f" weight="fill" /></Tooltip>}
-                {!active && <Tooltip text="Pause"><Play size={20} color="#0f0f0f" weight="fill" /></Tooltip>}
-              </button>
-              <button onClick={nextSong} className='p-2 opacity-75 hover:opacity-100'>
-                <Tooltip text="Next">
-                  <SkipForward size={20} color="#fff" weight="fill" />
-                </Tooltip>  
-              </button>
-              <BtnRepeat />
-            </div>
-            <div className="relative flex w-full items-center order-1 md:order-none">
-              <audio ref={inputRef} onEnded={handleEnd} onLoadedMetadata={handleDuration} onTimeUpdate={handleTimeUpdate} className='w-full -translate-y-[13px]' src={music} />
-              <ControlTime duration={duration} audioRef={inputRef} active={active} currentTime={currentTime} setCurrentTime={setCurrentTime} />
-            </div>
-          </div>
-        </div>
-      </div> 
-      <div className={`absolute right-1.5 -top-[45px] md:-top-[53px] lg:static flex gap-1 justify-end items-center min-w-[280px]`}>
+      <div className='absolute right-1.5 -top-[45px] md:-top-[53px] lg:static flex gap-1 justify-end items-center min-w-[280px]'>
         <BtnQueue />
-        <ControlVolume audioRef={inputRef} />
-        {/* <button disabled={true} className='cursor-not-allowed'>
-          <Tooltip text="Full screen">
-            <ArrowsOutSimple size={24} color="#fff" weight="fill" className="opacity-75 hover:opacity-100 ml-1" />
-          </Tooltip>
-        </button> */}
+        <ControlVolume audioRef={audioRef} />
       </div>
     </div>
   )
