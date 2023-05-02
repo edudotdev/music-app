@@ -1,23 +1,11 @@
 import { Layout } from '@/components/Layout'
-import { useEffect, useState } from 'react'
-import { CardSong } from '@/components/molecules'
+import { CardSong, NoFavorites } from '@/components/molecules'
 import { TRACK } from '@/types'
-import { getFavorites } from '@/services/likes'
 import { BtnPlay, BtnShuffle } from '@/components/atoms'
-import { Heart } from 'phosphor-react'
-import Link from 'next/link'
+import { useFavorites } from '@/hooks/useFavorites'
 
 export default function Likes () {
-  const [favorites, setFavorites] = useState<TRACK[]>()
-
-  useEffect(() => {
-    handleFavorites()
-  }, [])
-
-  const handleFavorites = async () => {
-    const data = await getFavorites()
-    setFavorites(data)
-  }
+  const { favorites } = useFavorites()
   
   return (
     <Layout title='Likes'>
@@ -34,18 +22,9 @@ export default function Likes () {
           }
         </div>
       </div>
-      {favorites?.length === 0 &&
-        <div className='flex flex-col justify-center items-center gap-10 mt-10 lg:mt-36'>
-          <Heart size={130} color="#fff" weight="duotone" />
-          <div className='flex flex-col gap-8'>
-            <h2 className='text-2xl lg:text-4xl font-bold text-white'>Songs you like wil appear here</h2>
-            <p className='text-neutral-400 self-center'>Save songs by tapping the heart</p>
-            <Link href='/' className='bg-white text-neutral-700 font-semibold rounded-full py-2.5 px-5 self-center'>
-              Discover music
-            </Link>
-          </div>
-        </div>
-      }
+      
+      {favorites?.length === 0 && <NoFavorites/>}
+
       <div className='grid gap-3 sm:gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
         {favorites?.map((song: TRACK, index: number) => (( 
           <CardSong key={song.id} songs={favorites} position={index} />
