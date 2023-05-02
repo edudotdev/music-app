@@ -37,7 +37,7 @@ export const forYou = async (countryCode: string) => {
         title
       })  
     })
-    redis.set(redisName, JSON.stringify({'songs': cleanData}))
+    redis.set(redisName, JSON.stringify({'songs': cleanData}), 'EX', 86400)
     return {'songs': cleanData}
   }).catch(function (error) {
     console.error(error);

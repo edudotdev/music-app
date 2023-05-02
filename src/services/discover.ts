@@ -35,7 +35,7 @@ export const discover = async () => {
         title
       })  
     })
-    redis.set('discover', JSON.stringify({discover:cleanData}))
+    redis.set('discover', JSON.stringify({discover:cleanData}), 'EX', 86400)
     return {discover:cleanData}
   }).catch(function (error) {
     console.error(error);
