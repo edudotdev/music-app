@@ -4,6 +4,7 @@ import { XCircle } from 'phosphor-react'
 import { newPlaylist } from '@/crud/playlist'
 import { useActionInfoStore } from '@/store/actionInfoStore'
 import useExternalClick from '@/hooks/useExternalClick'
+import { usePlaylistsStore } from '@/store/playlistsStore'
 
 interface ModalNewPlaylistProps {
   setShowModal: (value:boolean) => void
@@ -15,6 +16,8 @@ export const ModalNewPlaylist = ({
   const [namePlaylist, setNamePlaylist] = useState('')
   const modal = useRef(null);
   const { setTextInfo } = useActionInfoStore()
+
+  const { setPlaylists } = usePlaylistsStore()
 
   const escFunction = useCallback((event: any) => {
     if (event.keyCode === 27) setShowModal(false)
@@ -28,16 +31,18 @@ export const ModalNewPlaylist = ({
     };
   }, [escFunction])
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
-    newPlaylist(namePlaylist, [])
+    
+    const playlists = await newPlaylist(namePlaylist, [])
+    setPlaylists(playlists)
+    
     setTextInfo({
       text:'Playlist created',
       active: true
     })
-    setTimeout(() => {
-      setShowModal(false)
-    }, 100)
+
+    setShowModal(false)
   }
 
   const handleClickOutside = () => {
@@ -45,7 +50,6 @@ export const ModalNewPlaylist = ({
   }
 
   useExternalClick(modal, handleClickOutside)
-
 
   const handleChange = (e:any) => {
     setNamePlaylist(e.target.value)
