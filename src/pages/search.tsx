@@ -18,8 +18,6 @@ const SearchPage: NextPage = () => {
 
   if (error) Router.push('/404')
 
-  console.log(router.query.song)
-
   return (
     <Layout title={`${router.query.song === undefined ?  'Search Page' : router.query.song} - search`}>
       
