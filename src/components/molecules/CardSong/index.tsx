@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { usePlayerIndexStore, usePlayerStore } from '@/store/playerStore'
 import { BtnLike, BtnOptionsSong, BtnPlay } from '@/components/atoms'
 import { useState } from 'react';
 import { TRACK } from '@/types'
