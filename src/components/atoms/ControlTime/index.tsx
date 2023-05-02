@@ -5,8 +5,8 @@ interface ControlTimeProps {
   active: boolean
   duration: number
   audioRef: RefObject<HTMLAudioElement>
-  currentTime: any
-  setCurrentTime: any
+  currentTime: number
+  setCurrentTime: (value: number) => void
 }
 
 export const ControlTime = ({
@@ -15,7 +15,8 @@ export const ControlTime = ({
   audioRef,
   currentTime,
   setCurrentTime
-}:ControlTimeProps) => { 
+}:ControlTimeProps) => {
+
   const handleSeek = (value: number[]) => {
     const newCurrentTime = value[0]
     setCurrentTime(newCurrentTime);
@@ -23,15 +24,15 @@ export const ControlTime = ({
   }
 
   const secondsToMinutes = (time: number) => {
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60; 
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60; 
     return `${minutes}:${seconds < 10? (`0${Math.floor(seconds)}`) : Math.floor(seconds)}`
   }
 
   return (
     <div className='absolute -top-5 md:static flex items-center w-full'>
       <p className='text-neutral-200 text-xs w-[45px] hidden md:block'>{secondsToMinutes(currentTime)}</p>
-      <Slider.Root className="SliderRoot w-full" value={[currentTime]} defaultValue={[currentTime]} min={0} max={duration} onValueChange={handleSeek} >
+      <Slider.Root className="SliderRoot w-full" value={[currentTime]} defaultValue={[currentTime]} min={0} max={duration} onValueChange={handleSeek}>
         <Slider.Track className="SliderTrack">
           <Slider.Range className="SliderRange" />
         </Slider.Track>
