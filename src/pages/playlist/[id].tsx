@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Layout } from '@/components/Layout'
-import { PLAYLIST, TRACK } from '@/types'
+import { PLAYLIST } from '@/types'
 import { ThumbnailPlaylist } from '@/components/molecules'
 import { ArrowLeft } from 'phosphor-react'
 import { getPlaylistByUUID } from '@/services/playlists'
 import { BtnPlay, BtnShuffle } from '@/components/atoms'
 import { TablePlaylist } from '@/components/organisms'
+import Link from 'next/link'
 
 export default function Playlist ()  {
   const router = useRouter()
@@ -25,10 +26,10 @@ export default function Playlist ()  {
   }
   
   return (
-    <Layout title={' playlist.name'}>
-      <button onClick={() => router.push('/playlists')} className='bg-white/20 hover:bg-white/30 rounded-full p-2 self-start'>
+    <Layout title={playlist?.name || uuid}>
+      <Link href='/playlists' className='bg-white/20 hover:bg-white/30 rounded-full p-2 self-start'>
         <ArrowLeft size={25} color="#fff" weight="bold" />
-      </button>
+      </Link>
      {playlist && (
       <div className='flex flex-col lg:flex-row items-center lg:items-end gap-5 lg:gap-10'>
         <div className='min-w-[300px] max-w-[350px] rounded-xl overflow-hidden aspect-square'>
@@ -44,9 +45,7 @@ export default function Playlist ()  {
         </div>
       </div>)}
       
-      <div className=''>
-        {playlist && <TablePlaylist songs={playlist.song} />}
-      </div>
+      {playlist && <TablePlaylist songs={playlist.song} />}
     </Layout>
   )
 }
