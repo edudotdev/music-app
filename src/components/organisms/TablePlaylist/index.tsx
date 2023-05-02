@@ -1,5 +1,5 @@
 import { TRACK } from '@/types'
-import { DotsThreeOutline, Play } from 'phosphor-react'
+import { DotsThreeOutline } from 'phosphor-react'
 import React, { useState, useRef } from 'react'
 import Image from 'next/image'
 import { BtnPlay } from '@/components/atoms'
@@ -16,7 +16,9 @@ export const TablePlaylist = ({
   const row = useRef(null)
 
   const handleClickOutside = () => setActive(false)
+
   useExternalClick(row, handleClickOutside)
+  
   const handleActiveRow = (index:number) => setActive(index)
 
   return (
