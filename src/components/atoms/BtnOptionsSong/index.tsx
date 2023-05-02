@@ -1,6 +1,6 @@
 import { DotsThreeOutline } from 'phosphor-react'
 import { MenuPlaylist } from '@/components/molecules/'
-import { BtnPlayLast, BtnPlay, BtnPlayNext } from '@/components/atoms'
+import { BtnPlayLast, BtnPlayNext } from '@/components/atoms'
 import { TRACK } from '@/types'
 
 interface BtnOptionsSongProps {
@@ -29,9 +29,8 @@ export const BtnOptionsSong = ({
           <div className="absolute right-0 bottom-[50px] py-2.5 mt-2 w-28 rounded-md bg-neutral-900/95 shadow-lg">
             <MenuPlaylist song={songs[position]} className='text-white py-1.5 px-2 text-xs w-full text-start font-semibold hover:bg-neutral-400/10' />
             <hr className='opacity-25' />
-            {/* <BtnPlay songs={songs} position={position} showIcon={false} className='text-white group flex w-full items-center py-1.5 px-2 text-xs font-semibold hover:bg-neutral-400/10' /> */}
-            <BtnPlayNext song={songs[position]} className='text-white group flex gap-1.5 w-full items-center py-1.5 px-2 text-xs transition-[padding] font-semibold hover:bg-neutral-400/10' />
-            <BtnPlayLast song={songs[position]} className='text-white group flex gap-1.5 w-full items-center py-1.5 px-2 text-xs transition-[padding] font-semibold hover:bg-neutral-400/10' />
+            <BtnPlayNext song={songs[position]} className='text-white group flex gap-1.5 w-full items-center py-1.5 px-2 text-xs font-semibold hover:bg-neutral-400/10' />
+            <BtnPlayLast song={songs[position]} className='text-white group flex gap-1.5 w-full items-center py-1.5 px-2 text-xs font-semibold hover:bg-neutral-400/10' />
           </div>
         )}
       </div>
