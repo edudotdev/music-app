@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TRACK, PLAYLIST } from '@/types'
-import localForage from 'localforage'
 import { newPlaylist, addSong } from '@/crud/playlist'
 import { Playlist } from 'phosphor-react';
 import { useActionInfoStore } from '@/store/actionInfoStore'
+import { usePlaylistsStore } from '@/store/playlistsStore';
+import { shallow } from 'zustand/shallow';
 
 interface MenuPlaylistProps {
   song: TRACK,
@@ -16,19 +17,25 @@ export const MenuPlaylist = ({
 }:MenuPlaylistProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [namePlaylist, setNamePlaylist] = useState('')
-  const [playlists, setPlaylists] = useState([])
   const { setTextInfo } = useActionInfoStore()
+  const { playlists } = usePlaylistsStore((state) => ({
+    playlists: state.playlists
+  }), shallow)
+
+  const { setPlaylists } = usePlaylistsStore()
 
   const handleChange = (e: any) => {
     setNamePlaylist(e.target.value)
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if(namePlaylist.trim() === '') return
 
-    newPlaylist(namePlaylist, [song])
+    const playlists = await newPlaylist(namePlaylist, [song])
+    setPlaylists(playlists)
+
     setNamePlaylist('')
     setIsOpen(false)
 
@@ -46,10 +53,6 @@ export const MenuPlaylist = ({
       active: true
     })
   }
-
-  useEffect(() => {
-    handlePlaylists(setPlaylists)
-  }, [isOpen])
 
   return (
     <div className='z-50'>
@@ -74,12 +77,3 @@ export const MenuPlaylist = ({
     </div>
   );
 }
-
-const handlePlaylists = async (setPlaylists: any) => {
-  await localForage.getItem('playlists')
-    .then((result:any) => {
-      if (result === null) result = []
-      setPlaylists(result)
-    })
-}
-
