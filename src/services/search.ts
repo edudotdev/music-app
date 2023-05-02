@@ -37,7 +37,6 @@ export const searchSong = async (query:string) => {
     })
     
     redis.set(`search-${query}`, JSON.stringify({songs: cleanData}))
-    console.log('AXIOS uwuwuwuwu')
     return {songs: cleanData}
   }).catch(function (error) {
     console.error(error);
