@@ -1,15 +1,11 @@
-import React from 'react'
-
 interface TooltipProps {
   children: React.ReactNode
   text: string
-  className?: string
 }
 
 export const Tooltip = ({
   children,
   text,
-  className = ''
 }:TooltipProps) => {
   return (
     <div className='relative group grid place-items-center'>
