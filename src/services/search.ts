@@ -24,7 +24,7 @@ export const searchSong = async (query:string) => {
     let cleanData:any = []
     const {tracks} = response.data
   
-    tracks.hits.map((hit:any) => {
+    tracks?.hits?.map((hit:any) => {
       const {hub, images, title, subtitle, key} = hit.track
 
       cleanData.push({
