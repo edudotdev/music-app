@@ -1,5 +1,4 @@
 import { MusicNotesSimple } from 'phosphor-react'
-import Image from 'next/image'
 import React from 'react'
 import { TRACK } from '@/types'
 
@@ -20,7 +19,7 @@ export const ThumbnailPlaylist = ({
       {songs.length < 4 && songs.length !== 0 &&
         <div className='h-full w-full'>
           {songs.slice(0, 1).map((song:TRACK, index:number) => (
-            <Image src={song.image} key={index} height={500} width={500} alt={song.title} quality={80} className='' />
+            <img src={song.image} key={index} height={500} width={500} alt={song.title} />
           ))}
         </div>
       }
@@ -28,7 +27,7 @@ export const ThumbnailPlaylist = ({
         songs.length >= 4 && 
         <div className='grid grid-cols-2 h-full '>
         {songs.slice(0,4).map((song:TRACK, index:number) => (
-          <Image src={song.image} key={index} height={250} width={250} alt={song.title} quality={80} className='' />
+          <img src={song.image} key={index} height={250} width={250} alt={song.title} />
         ))}
       </div>
       }

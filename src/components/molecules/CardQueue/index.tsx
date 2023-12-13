@@ -1,5 +1,4 @@
 import { usePlayerStore, usePlayerIndexStore } from '@/store/playerStore'
-import Image from 'next/image'
 import { TRACK } from '@/types'
 import React from 'react'
 import { shallow } from 'zustand/shallow'
@@ -21,7 +20,7 @@ export const CardQueue = () => {
       {tracks[0].id.length > 0 && tracks?.map((song: TRACK, index: number) =>  (
         <button key={index} onClick={() => setIndex(index)} className='relative w-[350px] gap-3 text-start flex justify-between hover:bg-neutral-700/90 p-3'>
           <div className='flex gap-2 h-full items-center'>
-            <Image src={song.image} width={45} height={45} alt={song.title} className='rounded-md' />
+            <img src={song.image} width={45} height={45} alt={song.title} className='rounded-md' />
             <div className='flex flex-col'>
               <span className={`${indexS === index ? 'text-green-500' : 'text-white'} text-sm`}>{song.title}</span>
               <span className='text-xs text-neutral-400'>{song.artist}</span>

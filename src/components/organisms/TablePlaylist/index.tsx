@@ -1,7 +1,6 @@
 import { TRACK } from '@/types'
 import { DotsThreeOutline } from 'phosphor-react'
 import React, { useState, useRef } from 'react'
-import Image from 'next/image'
 import { BtnPlay } from '@/components/atoms'
 import useExternalClick from '@/hooks/useExternalClick'
 
@@ -38,7 +37,7 @@ export const TablePlaylist = ({
                 <div className='flex items-center gap-4'>
                   <div className='relative rounded-md overflow-hidden cursor-pointer min-h-[45px] min-w-[45px]'>
                     <BtnPlay showText={false} songs={songs} position={index} className='absolute invisible group-hover:visible grid w-full h-full place-items-center bg-neutral-900/80' />
-                    <Image src={song.image} height={45} width={45} alt={song.title} className=' aspect-square' />
+                    <img src={song.image} height={45} width={45} alt={song.title} className='aspect-square' />
                   </div>
                   <div className='flex flex-col'>
                     <span>{song.title}</span>

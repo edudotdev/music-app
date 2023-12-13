@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { MusicNoteSimple } from 'phosphor-react'
 
 interface CurrentMusicProps {
@@ -17,7 +16,7 @@ export const CurrentMusic = ({
       <div className='bg-neutral-800 w-[40px] lg:w-[60px] lg:h-[60px] aspect-square grid place-content-center z-10'>
         {
           image.length > 0 
-            ? <Image src={image} width={60} height={60} alt={title} className="rounded-md aspect-square" />          
+            ? <img src={image} width={60} height={60} alt={title} className="rounded-md aspect-square" />          
             : <MusicNoteSimple size={30} color="#aaa" weight="fill" />
         }
       </div>
@@ -27,7 +26,7 @@ export const CurrentMusic = ({
           <h3 className='text-neutral-400 text-xs'>{artist}</h3>
         </div>
       </div>
-      {image.length > 0 && <Image src={image} width={60} height={60} alt={title} className="w-full block lg:hidden absolute blur-2xl opacity-20 pointer-event-none z-0 saturate-200 mix-blend-lighten" /> }
+      {image.length > 0 && <img src={image} width={60} height={60} alt={title} className="w-full block lg:hidden absolute blur-2xl opacity-20 pointer-event-none z-0 saturate-200 mix-blend-lighten" /> }
     </div>
   )
 }
