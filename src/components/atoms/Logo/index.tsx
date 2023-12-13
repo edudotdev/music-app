@@ -1,12 +1,13 @@
 import React from 'react'
-import { WaveTriangle  } from 'phosphor-react'
+import { WaveSawtooth } from 'phosphor-react'
+import Link from 'next/link'
 
 
 export const Logo = () => {
   return (
-    <h1 className='flex gap-2 text-3xl font-bold text-white justify-center opacity-90'>
-      <WaveTriangle  size={36} color="#fff" weight="duotone" />
+    <Link href='/' className='flex gap-2 text-3xl font-bold text-white justify-center opacity-90'>
+      <WaveSawtooth size={36} color="#fff" weight="fill" />
       <span>Zounds</span>
-    </h1>
+    </Link>
   )
 }
