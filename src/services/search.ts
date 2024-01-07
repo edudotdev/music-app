@@ -4,7 +4,7 @@ import Redis from 'ioredis'
 let redis = new Redis(process.env.UPSTASH_REDIS_REST_URL as string);
 
 export const searchSong = async (query:string) => {
-  const data = await redis.get(`search-${query}`, (err:any, result:any) => {
+  const data = await redis.get(`s-${query}`, (err:any, result:any) => {
     if (result !== null) return JSON.parse(result)
   });
 
@@ -28,7 +28,7 @@ export const searchSong = async (query:string) => {
       const {hub, images, title, subtitle, key} = hit.track
 
       cleanData.push({
-        id:key,
+        id: hub.actions[0].id,
         music: hub.actions[1].uri,
         image: images.coverart,
         artist: subtitle,
@@ -36,7 +36,7 @@ export const searchSong = async (query:string) => {
       })  
     })
     
-    redis.set(`search-${query}`, JSON.stringify({songs: cleanData}))
+    redis.set(`s-${query}`, JSON.stringify({songs: cleanData}))
     return {songs: cleanData}
   }).catch(function (error) {
     console.error(error);
