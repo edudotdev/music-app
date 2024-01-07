@@ -30,7 +30,7 @@ export const PlayerMusic = () => {
     statusRepeat: state.statusRepeat
   }), shallow)
   
-  const {music, image, title, artist} = tracks[index]
+  const {music, image, title, artist, id} = tracks[index]
 
   useEffect(() => {
     if (hasMusic) {
@@ -73,7 +73,7 @@ export const PlayerMusic = () => {
 
   return (
     <div className='relative flex justify-between w-full z-[9999] mx-auto h-[70px]'>
-      <CurrentMusic image={image} title={title} artist={artist} />
+      <CurrentMusic image={image} title={title} artist={artist} id={id} />
       <div className="grid w-full h-full place-items-center">
         <div className="relative w-full max-w-2xl flex flex-col gap-2.5 items-center justify-center">
           <div className="flex gap-4 order-2 md:order-none">
