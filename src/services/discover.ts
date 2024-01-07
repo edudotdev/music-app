@@ -28,7 +28,7 @@ export const discover = async () => {
       if(hub.actions === undefined) return
 
       cleanData.push({
-        id:key,
+        id: hub.actions[0].id,
         music: hub.actions[1].uri,
         image: images.coverart,
         artist: subtitle,
