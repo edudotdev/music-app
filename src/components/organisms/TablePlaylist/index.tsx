@@ -3,6 +3,7 @@ import { DotsThreeOutline } from 'phosphor-react'
 import React, { useState, useRef } from 'react'
 import { BtnPlay } from '@/components/atoms'
 import useExternalClick from '@/hooks/useExternalClick'
+import Link from 'next/link'
 
 interface TablePlaylistProps {
   songs: TRACK[]
@@ -40,7 +41,7 @@ export const TablePlaylist = ({
                     <img src={song.image} height={45} width={45} alt={song.title} className='aspect-square' />
                   </div>
                   <div className='flex flex-col'>
-                    <span>{song.title}</span>
+                    <Link href={`/track/${song.id}`} className='hover:underline'>{song.title}</Link>
                     <span className='block lg:hidden text-neutral-300 truncate'>{song.artist}</span>
                   </div>
                 </div>
