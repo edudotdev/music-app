@@ -20,20 +20,20 @@ export const BtnLike = ({
     setActive(!active)
 
     if (!active) {
-      localForage.getItem('likes')
+      localForage.getItem('likedSongs')
         .then((result:any) => {
           if (result===null) { result = []}
-          localForage.setItem('likes', [song, ...result])
+          localForage.setItem('likedSongs', [song, ...result])
           setTextInfo({
             text:'Added to your liked songs',
             active: true
           })
         })
     } else {
-      localForage.getItem('likes')
+      localForage.getItem('likedSongs')
         .then((result:any) => {
           result = result.filter((items: TRACK) => items.id !== song.id)
-          localForage.setItem('likes', result)
+          localForage.setItem('likedSongs', result)
           setTextInfo({
             text:'Removed from your liked songs',
             active: true
@@ -42,7 +42,7 @@ export const BtnLike = ({
     }
   }
   useEffect(() => {
-    localForage.getItem('likes')
+    localForage.getItem('likedSongs')
       .then((result:any) => {
         if (result === null) return
         result.find((item:TRACK) => item.id === song.id) && setActive(true)
