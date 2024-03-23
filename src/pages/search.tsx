@@ -26,8 +26,11 @@ const SearchPage: NextPage = () => {
           <header className='flex justify-center gap-5 text-neutral-100 font-bold text-2xl lg:text-3xl'>
             <h2 className='text-green-400'>Search - {router.query.song}</h2>
           </header>
-          <section className='grid gap-3 sm:gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
+          <section className='flex flex-col'>
+            <div className='grid gap-3 sm:gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
+
             {isLoading && <SkeletonSearch />}
+            </div>
             
             {data && data.songs.map((song: TRACK, index:number) => ((
                 <div key={song.id}>
