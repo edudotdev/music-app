@@ -26,17 +26,19 @@ export const BtnOptionTableSong = ({
   
   return (
     <div className='grid place-items-center relative'>
-      <button onClick={() => setShowMenu(!showMenu)} className='p-1.5 rounded-full hover:bg-neutral-600'>
+      <button ref={button} onClick={() => setShowMenu(!showMenu)} className='p-1.5'>
         <DotsThreeOutline size={18} color="#fff" weight="fill" />
       </button>
-      {showMenu &&
-        <div ref={button} className='absolute right-12 top-0 rounded-md w-32 bg-neutral-900 text-white text-base shadow-2xl p-1 z-10'>
-          <MenuPlaylist song={songs[index]} className='text-left p-1.5 hover:bg-neutral-700 text-sm rounded-md w-full' />
-          <hr className='opacity-40' />
-          <BtnPlay songs={songs} position={index} showIcon={false} className='text-left p-1.5 hover:bg-neutral-700 rounded-md w-full' />
-          <BtnPlayNext song={songs[index]} className='text-left p-1.5 hover:bg-neutral-700 rounded-md w-full' /> 
-          <BtnPlayLast song={songs[index]} className='text-left p-1.5 hover:bg-neutral-700 rounded-md w-full' />
+      { showMenu &&
+        <div className='fixed flex flex-col bottom-48 md:bottom-[unset] w-56 left-1/2 -translate-x-1/2 md:left-[unset] md:translate-x-[unset] md:absolute z-[1000] md:right-4 md:top-7 md:w-32 rounded-md  bg-neutral-700 *:border-b *:border-b-neutral-600 last:border-b-none border border-neutral-600 shadow-xl text-white md:text-xs'>
+          <MenuPlaylist song={songs[index]} className='text-white py-1.5 px-2 text-base md:text-xs w-full text-start hover:bg-neutral-400/40 hidden md:block' />
+          {/* <BtnPlay songs={songs} position={index} showIcon={false} className='text-left p-1.5 hover:bg-neutral-400/40 w-full' /> */}
+          <BtnPlayNext song={songs[index]} className='text-left p-1.5 hover:bg-neutral-400/40 w-full order-1 md:order-2' /> 
+          <BtnPlayLast song={songs[index]} className='text-left p-1.5 hover:bg-neutral-400/40 w-full order-2 md:order-3' />
         </div> 
+      }
+      { showMenu && 
+        <div className='fixed md:static bg-black/50 w-full h-full inset-0 z-30'></div>
       }
     </div>
   )

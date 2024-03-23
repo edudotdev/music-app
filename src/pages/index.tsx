@@ -5,6 +5,8 @@ import useSWR from 'swr'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { SkeletonTableSongs } from '@/components/skeletons/SkeletonTableSongs'
+import { useModalPlaylist } from '@/store/playlistsStore'
+import { ModalNewPlaylist } from '@/components/molecules'
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data)
 
@@ -14,6 +16,12 @@ const Home = () => {
   const { data, error, isLoading } = useSWR(`/api/discover`, fetcher)
 
   if (error) router.push('/404')
+
+  const { showModal, setShowModal, song } = useModalPlaylist((state) => ({
+    showModal: state.showModal,
+    setShowModal: state.setShowModal,
+    song: state.song
+  }))
   
   return (
     <Layout title='Home'>
@@ -26,6 +34,7 @@ const Home = () => {
       </header>
       {isLoading && <SkeletonTableSongs />}
       {!isLoading && <TableTopSongs songs={[...data?.discover]} />}
+      {showModal && <ModalNewPlaylist setShowModal={setShowModal} song={song} />}
     </Layout>
   )
 }

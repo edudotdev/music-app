@@ -1,19 +1,18 @@
 
 .input {
   padding: 29px 15px 14px 15px;
-  border: none;
-  border: 2px solid #4b4b4b;
+  border: 1px solid #4b4b4b;
   outline: none;
   border-radius: 8px;
   font-size: 14px;
   transition: border .5s;
   width: 100%;
-  background: #27272a;
+  background: transparent;
   color: white;
 }
 
 .input:focus {
-  border: 2px solid #fff;
+  /* border: 1px solid #fff; */
 }
 
 .label {

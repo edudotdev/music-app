@@ -29,8 +29,8 @@ export const BtnOptionsPlaylist = ({
   return (
     <div className={`absolute group-hover:z-10 text-right ${className}`} >
       <div className="relative inline-block text-left">
-        <button onClick={() => setShowMenu(!showMenu)} className="p-2 bg-neutral-900/70 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-          <DotsThreeOutline size={25} color="#dbeafe" weight="fill" />
+        <button onClick={() => setShowMenu(!showMenu)} className="p-1.5 bg-neutral-900/60 backdrop-blur-md rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          <DotsThreeOutline size={18} color="#fff" weight="fill" />
         </button>
         {showMenu && (
           <div className="absolute right-0 bottom-[50px] mt-2 w-24 origin-bottom-right rounded-md bg-neutral-900/95 shadow-lg ring-opacity-5 focus:outline-none">

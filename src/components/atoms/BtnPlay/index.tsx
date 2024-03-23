@@ -15,12 +15,12 @@ interface BtnPlayProps {
 export const BtnPlay = ({
   className,
   songs,
-  position,
+  position = 0,
   showText = true,
   showIcon = true
 }:BtnPlayProps) => {
-  const {setTrack} = usePlayerStore()
-  const {setIndex} = usePlayerIndexStore()
+  const { setTrack } = usePlayerStore()
+  const { setIndex } = usePlayerIndexStore()
 
   const { statusShuffle } = useStatusShuffle((state) => ({
     statusShuffle: state.statusShuffle
@@ -37,10 +37,10 @@ export const BtnPlay = ({
       setIndex(0)
     } else if(statusShuffle) {
       setTrack(shuffle([...songs]))
-      setIndex(position || 0)
+      setIndex(position)
     } else {
       setTrack(songs)
-      setIndex(position || 0)
+      setIndex(position)
     }
   }
 

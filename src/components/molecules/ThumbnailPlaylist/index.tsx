@@ -19,7 +19,7 @@ export const ThumbnailPlaylist = ({
       {songs.length < 4 && songs.length !== 0 &&
         <div className='h-full w-full'>
           {songs.slice(0, 1).map((song:TRACK, index:number) => (
-            <img src={song.image} key={index} height={500} width={500} alt={song.title} />
+            <img src={song.image} key={index} height={400} width={400} alt={song.title} />
           ))}
         </div>
       }

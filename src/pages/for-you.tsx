@@ -7,6 +7,8 @@ import { BtnPlay } from '@/components/atoms'
 import useSWR from 'swr'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { useModalPlaylist } from '@/store/playlistsStore'
+import { ModalNewPlaylist } from '@/components/molecules'
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data)
 
@@ -16,6 +18,12 @@ const ForYou: NextPage = () => {
   const { data, error, isLoading } = useSWR(`/api/forYou`, fetcher)
 
   if (error) router.push('/404')
+
+  const { showModal, setShowModal, song } = useModalPlaylist((state) => ({
+    showModal: state.showModal,
+    setShowModal: state.setShowModal,
+    song: state.song
+  }))
 
   return (
     <Layout title='For You'>
@@ -31,6 +39,7 @@ const ForYou: NextPage = () => {
       </header>
     {isLoading && <SkeletonTableSongs />}
     {!isLoading && <TableTopSongs songs={[...data.songs.songs]} />}
+    {showModal && <ModalNewPlaylist setShowModal={setShowModal} song={song} />}
     </Layout>
   )
 }
