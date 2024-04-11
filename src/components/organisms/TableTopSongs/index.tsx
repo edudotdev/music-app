@@ -32,7 +32,7 @@ export const TableTopSongs = ({
         </thead>
         <tbody>
           {songs.map((song: TRACK, index: number) => (
-            <tr ref={row} onClick={() => handleActiveRow(index)} key={index} className={`group table-row rounded-lg overflow-hidden  ${active ===  index? 'bg-neutral-500 [&>:nth-child(2)]:text-white' : 'hover:bg-neutral-600/40 odd:bg-neutral-700/30'}`}>
+            <tr ref={row} onClick={() => handleActiveRow(index)} key={index} className={`group table-row rounded-lg overflow-hidden  ${active ===  index? 'bg-neutral-600 [&>:nth-child(2)]:text-white' : 'md:hover:bg-neutral-600/60 odd:bg-neutral-700/30'}`}>
               <td className='p-1.5 md:p-2.5 text-white text-xs sm:text-base w-8 text-center'>{index+1}</td>
               <td className="truncate p-1.5 md:p-2.5 w-full text-xs lg:text-base text-white table-cell md:py-2">
                 <div className='flex items-center gap-4'>
