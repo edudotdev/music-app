@@ -11,8 +11,8 @@ export const NavMobile = () => {
   const sizeIcon: number = 24
   
   return (
-    <div className='fixed -bottom-0 z-[999999]  md:hidden bg-[#0f0f0f] w-full p-2'>
-      <div className='flex justify-around bg-white/10 rounded-md'>
+    <div className='fixed -bottom-0 z-[999999] md:hidden bg-[#0f0f0f] w-full p-0'>
+      <div className='flex justify-around bg-white/10'>
         <NavLink variant='mobile' to='/search' text='Search'>
           <MagnifyingGlass size={sizeIcon} color={router.asPath === '/search'? colorIconActive : colorIcon} weight="fill" />
         </NavLink>
