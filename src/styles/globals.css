@@ -4,6 +4,8 @@
 
 @import url('./fonts.css');
 
+html {color-scheme: dark;}
+
 body {
   font-family: 'Jakarta', Arial, Helvetica, sans-serif;
 }
