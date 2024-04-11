@@ -41,8 +41,14 @@ export const TablePlaylist = ({
                     <img src={song.image} height={45} width={45} alt={song.title} className='aspect-square' />
                   </div>
                   <div className='flex flex-col'>
-                    <Link href={`/track/${song.id}`} className='hover:underline'>{song.title}</Link>
-                    <span className='block lg:hidden text-neutral-300 truncate'>{song.artist}</span>
+                    <Link href={`/track/${song.id}`} className='group/text'>
+                    <div className='bottom-0 py-2.5 flex flex-col truncate justify-between'>
+                      <p className='text-white/90 font-bold text-sm truncate group-hover/text:underline'>{song.title}</p>
+                      <p className='text-white/75 text-xs font-semibold truncate lg:hidden'>{song.artist}</p>
+                    </div>
+                    </Link>
+                    {/* <span className='block lg:hidden text-neutral-300 truncate'>{song.artist}</span> */}
+                    
                   </div>
                 </div>
               </td>
