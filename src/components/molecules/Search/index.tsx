@@ -24,7 +24,7 @@ export const Search = () => {
   }
 
   return (
-    <form onSubmit={e => handleSubmit(e)} className=''>
+    <form onSubmit={e => handleSubmit(e)} className='mx-2'>
       <div className='bg-white/90 w-full flex gap-3 text-base p-3 rounded-lg'>
         <MagnifyingGlass size={30} color="#000" weight="fill" />
         <input

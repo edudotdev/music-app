@@ -21,7 +21,7 @@ export default function Playlists () {
 
       {playlists?.length === 0 && <NoPlaylists />}
       
-      <div className='grid gap-3 sm:gap-6 grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
+      <div className='grid gap-3 sm:gap-6 grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 mx-2'>
         {playlists?.map((playlist:PLAYLIST) => (
           <CardPlaylist key={playlist.uuid} playlist={playlist} />
         ))}

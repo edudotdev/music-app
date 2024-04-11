@@ -27,7 +27,7 @@ const ForYou: NextPage = () => {
 
   return (
     <Layout title='For You'>
-      <header className='flex justify-between items-center gap-2'>
+      <header className='flex justify-between items-center gap-2 px-4 md:px-0'>
         <div className='flex flex-col'>
           <h2 className='text-neutral-100 font-bold text-4xl flex gap-3 relative'>
             Trending 
