@@ -28,6 +28,7 @@ export const BtnOptionsSong = ({
   }
 
   useExternalClick(a, handleClickOutside)
+
   return (
     <>
       <div className={`text-right ${className}`}>
@@ -43,7 +44,7 @@ export const BtnOptionsSong = ({
         </div>
       )}
       { showMenu && 
-        <div className='fixed md:static bg-black/50 w-full h-full inset-0 z-30'></div>
+        <div className='fixed md:hidden md:static bg-black/50 w-full h-full inset-0 z-30'></div>
       }
     </>
   )
