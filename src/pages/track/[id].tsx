@@ -32,7 +32,7 @@ const Track:NextPage<any> = (props) => {
           <BtnLike song={track} className='p-4' />
       </div>
       <div className='mx-2'>
-        <div className='flex justify-between items-center bg-green-600 rounded-md p-3 md:py-3 md:px-4'>
+        <div className='relative flex justify-between items-center bg-green-600 rounded-md p-3 md:py-3 md:px-4'>
           <p className='font-semibold text-white'>{song.name}</p>
           <BtnOptionsSong position={0} songs={[track]} setShowMenu={setShowMenu} showMenu={showMenu} className='!static opacity-75' />
         </div>
