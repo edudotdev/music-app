@@ -7,8 +7,9 @@ import Router from 'next/router'
 import useSWR from 'swr'
 import axios from 'axios'
 import { TRACK } from '@/types'
-import { Search } from '@/components/molecules'
+import { ModalNewPlaylist, Search } from '@/components/molecules'
 import { Disc } from 'phosphor-react'
+import { useModalPlaylist } from '@/store/playlistsStore'
 
 const fetcher = (url:string) => axios.get(url).then(res => res.data)
 
@@ -17,6 +18,12 @@ const SearchPage: NextPage = () => {
   const { data, error, isLoading } = useSWR(`/api/search?song=${router.query.song}`, fetcher)
 
   if (error) Router.push('/404')
+
+  const { showModal, setShowModal, song } = useModalPlaylist((state) => ({
+    showModal: state.showModal,
+    setShowModal: state.setShowModal,
+    song: state.song
+  }))
 
   return (
     <Layout title={`${router.query.song === undefined ?  'Search Page' : router.query.song} - search`}>
@@ -59,6 +66,7 @@ const SearchPage: NextPage = () => {
           <span className='text-white text-center font-bold text-xl'>Find your favorite songs or artists</span>
         </div>
       }
+      {showModal && <ModalNewPlaylist setShowModal={setShowModal} song={song} />}
     </Layout>
   )
 }
