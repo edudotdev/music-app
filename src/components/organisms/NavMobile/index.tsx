@@ -16,12 +16,12 @@ export const NavMobile = () => {
         <NavLink variant='mobile' to='/search' text='Search'>
           <MagnifyingGlass size={sizeIcon} color={router.asPath === '/search'? colorIconActive : colorIcon} weight="fill" />
         </NavLink>
-        <NavLink variant='mobile' to='/' text='Discover'>
+        {/* <NavLink variant='mobile' to='/' text='Discover'>
           <GlobeSimple size={sizeIcon} color={router.asPath === '/'? colorIconActive : colorIcon} weight="fill" />
         </NavLink>
         <NavLink variant='mobile' to='/for-you' text='For you'>
           <Disc size={sizeIcon} color={router.asPath === '/for-you'? colorIconActive : colorIcon} weight="fill" />
-        </NavLink>
+        </NavLink> */}
         <NavLink variant='mobile' to='/playlists' text='Playlists'>
           <Playlist size={sizeIcon} color={router.asPath === '/playlists'? colorIconActive : colorIcon} weight="fill" />
         </NavLink>
