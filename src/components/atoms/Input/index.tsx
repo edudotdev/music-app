@@ -3,7 +3,7 @@ import styles from './input.module.css'
 
 interface InputProps {
   label: string
-  onChange: (event:any) => void
+  onChange: (event:React.FormEvent<HTMLInputElement>) => void
 }
 
 export const Input = ({
