@@ -1,28 +1,27 @@
 import { TRACK } from '@/types'
-import { DotsThreeOutline } from 'phosphor-react'
 import React, { useState, useRef } from 'react'
-import { BtnPlay } from '@/components/atoms'
+import { BtnOptionsSong, BtnPlay } from '@/components/atoms'
 import useExternalClick from '@/hooks/useExternalClick'
 import Link from 'next/link'
 
 interface TablePlaylistProps {
   songs: TRACK[]
+  uuid: string
 }
 
 export const TablePlaylist = ({
-  songs
+  songs,
+  uuid
 }:TablePlaylistProps) => {
   const [active, setActive] = useState<number | boolean>()
   const row = useRef(null)
-
   const handleClickOutside = () => setActive(false)
-
-  useExternalClick(row, handleClickOutside)
-  
   const handleActiveRow = (index:number) => setActive(index)
 
+  useExternalClick(row, handleClickOutside)
+
   return (
-    <div className="mx-auto mt-4 w-full overflow-x-auto md:rounded-md md:shadow-sm lg:block">
+    <div className="mx-auto mt-4 w-full md:rounded-md md:shadow-sm lg:block">
       <table className="whitespace-no-wrap w-full table-fixed text-left">
         <thead>
           <tr className="hidden lg:table-row">
@@ -33,7 +32,7 @@ export const TablePlaylist = ({
         </thead>
         <tbody>
           {songs.map((song: TRACK, index: number) => (
-            <tr ref={row} onClick={() => handleActiveRow(index)} key={index} className={`group table-row rounded-lg overflow-hidden  ${active ===  index? 'bg-neutral-500 [&>:nth-child(2)]:text-white' : 'hover:bg-neutral-600/40 odd:bg-neutral-700/30'}`}>
+            <tr ref={row} onClick={() => handleActiveRow(index)} key={index} className={`group table-row rounded-lg ${active ===  index? 'bg-neutral-500 [&>:nth-child(2)]:text-white' : 'hover:bg-neutral-600/40 odd:bg-neutral-700/30'}`}>
               <td className="truncate w-11/12 p-1.5 md:p-2.5 text-xs lg:text-base text-white table-cell md:py-2">
                 <div className='flex items-center gap-4'>
                   <div className='relative rounded-md overflow-hidden cursor-pointer min-h-[45px] min-w-[45px]'>
@@ -48,15 +47,16 @@ export const TablePlaylist = ({
                     </div>
                     </Link>
                     {/* <span className='block lg:hidden text-neutral-300 truncate'>{song.artist}</span> */}
-                    
                   </div>
                 </div>
               </td>
               <td className="hidden lg:table-cell relative text-xs lg:text-base truncate p-1.5 md:p-2.5 align-middle text-neutral-400 md:py-2 md:pl-0 ">{song.artist}</td>
-              <td className="text-xs lg:text-base truncate relative pr-5 py-1.5 align-right text-neutral-300 md:py-2 text-right">
-               <div className='flex justify-end cursor-not-allowed'>
-                <DotsThreeOutline size={18} color="#fff" weight="fill" />
-               </div>
+              <td className="text-xs lg:text-base relative pr-5 py-1.5 align-right text-neutral-300 md:py-2 text-right">
+                <div className='flex justify-end'>
+                  <div className=''>
+                    <BtnOptionsSong songs={[...songs]} position={index} playlistUuid={uuid} />
+                  </div>
+                </div>
               </td>
             </tr>
           ))}
