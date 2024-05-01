@@ -1,30 +1,43 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Layout } from '@/components/Layout'
 import { NextPage } from 'next'
 import { trackDetails } from '@/services/trackDetails'
 import { BtnPlay, BtnLike, BtnOptionsSong } from '@/components/atoms'
 import { TRACK } from '@/types'
 
-const Track:NextPage<any> = (props) => {
-  const [showMenu, setShowMenu] = useState(false)
+interface Song {
+  album: string;
+  artist: string;
+  composer: string;
+  duration: number;
+  id: string;
+  image: string;
+  music: string;
+  name: string;
+  releaseDate: string;
+}
 
-  const { song } = props
+const Track:NextPage<Song> = (props) => {
+  const { album, artist, composer, id, image, music, name } = props
 
   const track: TRACK = {
-    id: song.id,
-    music: song.music,
-    image: song.image,
-    title: song.name,
-    artist: song.artist,
+    id,
+    music,
+    image,
+    title: name,
+    artist,
   }
-
+  
   return (
-    <Layout title={song.name}>
+    <Layout title={name}>
       <div className='flex flex-col lg:flex-row items-center gap-4 md:gap-8 lg:items-end'>
-        <img src={song.image} className='rounded-xl' width={300} alt={song.name} />
+        <img src={image} className='rounded-xl' width={300} height={300} alt={name} />
         <div className='flex flex-col items-center lg:items-start gap-3 md:gap-6'>
-          <h1 className='text-white text-3xl lg:text-5xl font-bold text-balance'>{song.name}</h1>
-          <h2 className='text-white text-base'>{song.artist}</h2>
+         <div className='flex flex-col gap-2'>
+          <h1 className='text-white text-3xl lg:text-5xl font-bold text-balance'>{name}</h1>
+          <p className='text-gray-300 text-base'>{album}</p>
+         </div>
+          <p className='text-green-500 text-base'>{artist}</p>
         </div>
       </div>
       <div className='flex gap-5 items-center mx-2'>
@@ -33,10 +46,11 @@ const Track:NextPage<any> = (props) => {
       </div>
       <div className='mx-2'>
         <div className='relative flex justify-between items-center bg-green-600 rounded-md p-3 md:py-3 md:px-4'>
-          <p className='font-semibold text-white'>{song.name}</p>
-          <BtnOptionsSong position={0} songs={[track]} setShowMenu={setShowMenu} showMenu={showMenu} className='!static opacity-75' />
+          <p className='font-semibold text-white'>{name}</p>
+          <BtnOptionsSong position={0} songs={[track]} className='!static' />
         </div>
       </div>
+      <p className='px-2 text-gray-300'><b className='text-white'>Written By:</b> {composer}</p>
     </Layout>
   )
 }
@@ -46,8 +60,8 @@ export default Track
 
 export async function getServerSideProps({params}:any) {
   const id = String(params?.id)
-  const song = await trackDetails(id)
+  const song: Song = await trackDetails(id)
   
-  return { props: { song } }
+  return { props: song }
 }
  

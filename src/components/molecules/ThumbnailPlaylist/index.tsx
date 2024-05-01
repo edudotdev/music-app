@@ -3,7 +3,7 @@ import React from 'react'
 import { TRACK } from '@/types'
 
 interface ThumbnailPlaylistProps {
-  songs: []
+  songs: TRACK[]
 }
 
 export const ThumbnailPlaylist = ({

@@ -9,7 +9,7 @@ export type TRACK = {
 export type PLAYLIST = {
   uuid: string
   name: string,
-  song: []
+  song: TRACK[]
 }
 
 export type TEXTINFO = {
