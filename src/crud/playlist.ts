@@ -27,10 +27,31 @@ export const addSong = (uuid: string, song: TRACK) => {
           playlist.song.push(song)
         }
       })
-
       localForage.setItem('playlists', result)
     })
 }
+
+export const removeSong = async (playlistUuid: string, songId: string) => {
+  const result = await localForage.getItem('playlists')
+    .then((result: PLAYLIST[] | any) => {
+      if (!result) return;
+
+      const updatedPlaylists = result.map((playlist: PLAYLIST) => {
+        if (playlist.uuid === playlistUuid) {
+          playlist.song = playlist.song.filter(song => song.id !== songId);
+        }
+        return playlist;
+      });
+
+      localForage.setItem('playlists', updatedPlaylists);
+      return result
+    })
+    .catch(error => {
+      console.error('Error removing song:', error);
+    });
+
+    return result
+};
 
 export const deletePlaylist = async (uuid: string) => {
   const result = await localForage.getItem('playlists')
