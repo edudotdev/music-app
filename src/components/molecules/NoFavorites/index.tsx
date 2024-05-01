@@ -9,8 +9,8 @@ export const NoFavorites = () => {
       <div className='flex flex-col gap-8'>
         <h2 className='text-2xl lg:text-4xl font-bold text-white'>Songs you like wil appear here</h2>
         <p className='text-neutral-400 self-center'>Save songs by tapping the heart</p>
-        <Link href='/' className='bg-white text-neutral-700 font-semibold rounded-full py-2.5 px-5 self-center'>
-          Discover music
+        <Link href='/search' className='bg-white text-neutral-700 font-semibold rounded-full py-2.5 px-5 self-center'>
+          Find music
         </Link>
       </div>
     </div>
