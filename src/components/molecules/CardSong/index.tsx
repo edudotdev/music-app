@@ -12,9 +12,8 @@ export const CardSong = ({
   songs,
   position
 }:CardSongProps) => {
-  const [showMenu, setShowMenu] = useState(false)
   const { id, music, title, artist, image } = songs[position]
-
+  
   return (
     <div className='relative group/play flex items-center gap-1 hover:bg-neutral-600/40 odd:bg-neutral-700/30 px-1'>
       <BtnLike song={{id, music, title, artist, image}} className='!bg-transparent' />
@@ -28,7 +27,7 @@ export const CardSong = ({
           <p className='text-white/75 text-xs font-semibold truncate'>{artist}</p>
         </div>
       </Link>
-      <BtnOptionsSong songs={songs} position={position} setShowMenu={setShowMenu} showMenu={showMenu} className='ml-auto mr-1' />
+      <BtnOptionsSong songs={songs} position={position} className='ml-auto mr-1' />
     </div>
   )
 }
