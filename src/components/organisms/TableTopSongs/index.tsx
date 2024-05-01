@@ -1,6 +1,6 @@
 import { TRACK } from '@/types'
 import React, { useState, useRef } from 'react'
-import { BtnPlay, BtnLike, BtnOptionTableSong } from '@/components/atoms'
+import { BtnPlay, BtnLike, BtnOptionsSong } from '@/components/atoms'
 import useExternalClick from '@/hooks/useExternalClick'
 import Link from 'next/link'
 
@@ -53,7 +53,7 @@ export const TableTopSongs = ({
                 </div>
               </td>
               <td className="table-cell w-12 relative">
-                <BtnOptionTableSong songs={[...songs]} index={index} />
+                <BtnOptionsSong songs={[...songs]} position={index} />
               </td>
             </tr>
           ))}
