@@ -18,20 +18,7 @@ export const ModalNewPlaylist = ({
   const [namePlaylist, setNamePlaylist] = useState('')
   const modal = useRef(null);
   const { setTextInfo } = useActionInfoStore()
-
   const { setPlaylists } = usePlaylistsStore()
-
-  const escFunction = useCallback((event: any) => {
-    if (event.keyCode === 27) setShowModal(false)
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction, false);
-    };
-  }, [escFunction])
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
@@ -47,14 +34,8 @@ export const ModalNewPlaylist = ({
     setShowModal(false)
   }
 
-  const handleClickOutside = () => {
-    setShowModal(false)
-  }
-
-  useExternalClick(modal, handleClickOutside)
-
-  const handleChange = (e:any) => {
-    setNamePlaylist(e.target.value)
+  const handleChange = (e:React.FormEvent<HTMLInputElement>) => {
+    setNamePlaylist(e.currentTarget.value)
   }
 
   return (
