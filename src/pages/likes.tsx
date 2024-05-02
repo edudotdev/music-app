@@ -17,7 +17,7 @@ export default function Likes () {
 
   return (
     <Layout title='Likes'>
-      {favorites && favorites?.length > 1 &&
+      {favorites && favorites?.length > 0 &&
       <div className='flex flex-col md:flex-row gap-5 mb-6 items-center md:items-end'>
         <div className='grid place-content-center bg-white p-10 rounded-lg w-[270px] h-[270px]'>
           <Star size={130} color='#16a34a' weight="fill" />
