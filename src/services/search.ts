@@ -1,46 +1,70 @@
-import axios from 'axios'
-import Redis from 'ioredis'
+import axios from 'axios';
+import { kvService } from '@/services/kvService';
 
-let redis = new Redis(process.env.UPSTASH_REDIS_REST_URL as string);
-
-export const searchSong = async (query:string) => {
-  const data = await redis.get(`s-${query}`, (err:any, result:any) => {
-    if (result !== null) return JSON.parse(result)
-  });
-
-  if (data !== null) return JSON.parse(data)
-
-  const options = {
-    method: 'GET',
-    url: 'https://shazam.p.rapidapi.com/search',
-    params: {term: query, locale: 'en-US', offset: '0', limit: '10'},
-    headers: {
-      'X-RapidAPI-Key': process.env.RAPIDAPI_KEY as string,
-      'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
-    }
-  };
-
-  const dataAxios = axios.request(options).then(function (response) {
-    let cleanData:any = []
-    const {tracks} = response.data
-  
-    tracks?.hits?.map((hit:any) => {
-      const {hub, images, title, subtitle, key} = hit.track
-
-      cleanData.push({
-        id: hub.actions[0].id,
-        music: hub.actions[1].uri,
-        image: images.coverart,
-        artist: subtitle,
-        title
-      })  
-    })
-    
-    redis.set(`s-${query}`, JSON.stringify({songs: cleanData}))
-    return {songs: cleanData}
-  }).catch(function (error) {
-    console.error(error);
-  });
-  
-  return dataAxios
+export interface Song {
+  id: string;
+  music: string;
+  image: string;
+  artist: string;
+  title: string;
 }
+
+export const searchSong = async (query: string) => {
+  console.log("searchSong dynamic query:", query);
+  
+  const cacheKey = `s-${query.toLowerCase().trim()}`;
+
+  try {
+    const cachedData = await kvService.get<{ songs: Song[] }>(cacheKey);
+
+    if (cachedData) {
+      console.log("🎯 Data retrieved from Redis Cache");
+      return cachedData;
+    }
+
+    console.log("🌐 Cache miss. Fetching data from Shazam API...", query);
+
+    const options = {
+      method: 'GET',
+      url: 'https://shazam.p.rapidapi.com/v2/search',
+      params: {
+        term: query,
+        locale: 'en-US',
+        offset: '0',
+        limit: '5'
+      },
+      headers: {
+        'x-rapidapi-key': 'bc01c9be09msh955d38a9f7e12cep1d7b9bjsn28e0b9e60fd4',
+        'x-rapidapi-host': 'shazam.p.rapidapi.com',
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const response = await axios.request(options);
+    
+    const songsData = response.data?.results?.songs?.data;
+
+    const cleanData: Song[] = songsData?.map((item: any) => {
+      const { id } = item;
+      const { name, artistName, artwork, previews } = item.attributes;
+
+      return {
+        id: id || '',
+        music: previews?.[0]?.url || '',
+        image: artwork?.url ? artwork.url.replace('{w}', '400').replace('{h}', '400') : '',
+        artist: artistName || '',
+        title: name || ''
+      };
+    }) || [];
+
+    const result = { songs: cleanData };
+
+    await kvService.set(cacheKey, result, 86400);
+
+    return result;
+
+  } catch (error) {
+    console.error("Error in searchSong service:", error);
+    return { songs: [] };
+  }
+};
