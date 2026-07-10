@@ -1,5 +1,4 @@
 import { MusicNoteSimple } from 'phosphor-react'
-import Link from 'next/link';
 
 interface CurrentMusicProps {
   image: string
@@ -25,9 +24,7 @@ export const CurrentMusic = ({
       </div>
       <div className="flex flex-col items-center justify-center pl-2 lg:pl-4 z-10">
         <div className='flex flex-col lg:gap-1.5'>
-          <Link href={`/track/${id}`}>
-            <h2 className='text-neutral-100 text-xs lg:text-sm font-semibold hover:underline'>{title}</h2>
-          </Link>
+            <h2 className='text-neutral-100 text-xs lg:text-sm font-semibold'>{title}</h2>
           <h3 className='text-neutral-400 text-xs'>{artist}</h3>
         </div>
       </div>
