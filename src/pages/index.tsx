@@ -8,21 +8,24 @@ import { SkeletonTableSongs } from '@/components/skeletons/SkeletonTableSongs'
 import { useModalPlaylist } from '@/store/playlistsStore'
 import { ModalNewPlaylist } from '@/components/molecules'
 import Link from 'next/link'
+ import { Redis } from '@upstash/redis'
+import { useEffect } from 'react'
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data)
 
 const Home = () => {
   const router = useRouter()
   
-  const { data, error, isLoading } = useSWR(`/api/discover`, fetcher)
+  // const { data, error, isLoading } = useSWR(`/api/discover`, fetcher)
 
-  if (error) router.push('/404')
+  //if (error) router.push('/404')
 
   const { showModal, setShowModal, song } = useModalPlaylist((state) => ({
     showModal: state.showModal,
     setShowModal: state.setShowModal,
     song: state.song
   }))
+
   
   return (
     <Layout title='Home'>
