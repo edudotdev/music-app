@@ -18,7 +18,6 @@ export const searchSong = async (query: string) => {
     const cachedData = await kvService.get<{ songs: Song[] }>(cacheKey);
 
     if (cachedData) {
-      console.log("🎯 Data retrieved from Redis Cache");
       return cachedData;
     }
 
@@ -34,7 +33,7 @@ export const searchSong = async (query: string) => {
         limit: '5'
       },
       headers: {
-        'x-rapidapi-key': 'bc01c9be09msh955d38a9f7e12cep1d7b9bjsn28e0b9e60fd4',
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY as string,
         'x-rapidapi-host': 'shazam.p.rapidapi.com',
         'Content-Type': 'application/json'
       }
