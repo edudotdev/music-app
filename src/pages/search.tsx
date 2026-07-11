@@ -17,7 +17,6 @@ const SearchPage: NextPage = () => {
   const router = useRouter()
   const { song: querySong } = router.query
 
-  // Condición SWR: si querySong no está definido o el router no está listo, pasamos `null` para no hacer un fetch inválido
   const { data, error, isLoading } = useSWR(
     querySong ? `/api/search?song=${encodeURIComponent(querySong as string)}` : null,
     fetcher
@@ -46,14 +45,12 @@ const SearchPage: NextPage = () => {
           <section className='flex flex-col'>
             {isLoading && <SkeletonSearch />}
             
-            {/* Validamos de forma segura que data y data.songs existan antes de renderizar */}
             {data?.songs && data.songs.map((track: TRACK, index: number) => (
               <div key={track.id}>
                 <CardSong songs={[...data.songs]} position={index} />
               </div>
             ))}
 
-            {/* Ajustamos la validación para reflejar la estructura exacta del backend ({ songs: [] }) */}
             {data?.songs && data.songs.length === 0 && !isLoading && (
               <div className='flex flex-col justify-center col-span-full mt-10'>
                 <p className='text-white text-center font-bold text-base sm:text-xl'>
